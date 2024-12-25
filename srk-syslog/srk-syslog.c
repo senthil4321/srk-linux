@@ -4,7 +4,7 @@
 
 int main() {
     // Open a connection to the syslog
-    openlog("my_program", LOG_PID | LOG_CONS, LOG_USER);
+    openlog("srk_sys_log_demo", LOG_PID | LOG_CONS, LOG_USER);
 
     // Log a message with different severity levels
     syslog(LOG_INFO, "This is an informational message.");
