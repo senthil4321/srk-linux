@@ -12,7 +12,7 @@ srk-signal-handler/signal_handler: srk-signal-handler/signal_handler.c
 
 # Compile srk-capabilities.c
 srk-capabilities/srk-capabilities: srk-capabilities/srk-capabilities.c
-	$(CC) $(CFLAGS) -o $@ $< -lcap
+    $(CC) $(CFLAGS) -o $@ $< -lcap
 
 # Compile srk-syslog.c
 srk-syslog/srk-syslog: srk-syslog/srk-syslog.c
