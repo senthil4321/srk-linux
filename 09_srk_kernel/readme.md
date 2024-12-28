@@ -51,13 +51,20 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- omap2plus_defconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
-make ARCH=arm CROSS_COMPILE=ccache arm-linux-gnueabihf- O= -j$(nproc)
 ```
 
 ### Mechanism to speed up rebuilds
 
 ```bash
+make ARCH=arm mrproper
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ omap2plus_defconfig
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ menuconfig
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ -j$(nproc)
+```
+
+#### With updated 
+
+```bash
 export PATH="/usr/lib/ccache:$PATH"
-export CROSS_COMPILE="ccache arm-linux-gnueabihf-"
-O=/path/to/output-directory -j$(nproc)
+export CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=/path/to/output-directory -j$(nproc)
 ```
