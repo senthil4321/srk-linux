@@ -56,6 +56,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 ### Mechanism to speed up rebuilds
 
 ```bash
+#to clean the old build Config files, backup, output directory
 make ARCH=arm mrproper
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ omap2plus_defconfig
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ menuconfig
