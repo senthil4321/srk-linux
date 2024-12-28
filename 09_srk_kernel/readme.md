@@ -50,4 +50,14 @@ Somehow make detects changes in .config file. If there is no change it starts ne
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- omap2plus_defconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
+
+make ARCH=arm CROSS_COMPILE=ccache arm-linux-gnueabihf- O= -j$(nproc)
+```
+
+### Mechanism to speed up rebuilds
+
+```bash
+export PATH="/usr/lib/ccache:$PATH"
+export CROSS_COMPILE="ccache arm-linux-gnueabihf-"
+O=/path/to/output-directory -j$(nproc)
 ```
