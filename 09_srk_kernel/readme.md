@@ -14,11 +14,16 @@ To open the graphical configuration menu with a GUI, use the following command:
 make xconfig
 ```
 
-## Installing Qt6 on Linux
-
-To install Qt6 on a Linux system, use the following commands:
+To compile kernel with omap2plus_defconfig
 
 ```bash
-sudo apt update
-sudo apt install qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-tools-static qt6-core qt6-gui qt6-widgets
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- help
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- kernelversion
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- omap2plus_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs -j$(nproc)
 ```
