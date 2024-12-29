@@ -89,7 +89,22 @@ export CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=/path/to/output-directory -
 
 ## Trial3_29DEC24
 
-## Linux target commands 
+### Changes
+
+1. CONFIG_LOCALVERSION - srk-release-3
+2. CONFIG_DEFAULT_INIT - /sbin/hello3
+3. CONFIG_DEFAULT_HOSTNAME - srk3
+
+### Procedure
+
+```bash
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ xconfig
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
+```
+
+---
+
+## Linux target commands
 
 ### How to check the current linux command line in the running system?
 
