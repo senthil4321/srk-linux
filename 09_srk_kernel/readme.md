@@ -114,3 +114,5 @@ sysctl -a
 
 -[ ] How to disable sysctl ?
 -[ ] How to disable viewing linux command line ?
+-[ ] Script to mount `proc` automatically at boot
+    use /etc/fstab
