@@ -125,6 +125,12 @@ Utility to view and modify linux parameters at runtime.
 sysctl -a 
 ```
 
+### How to get the current config from running system?
+
+```bash
+zcat /proc/config.gz  | grep '=y$' | wc -l 
+```
+
 ### TODO
 
 -[ ] How to disable sysctl ?
