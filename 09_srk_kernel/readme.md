@@ -78,15 +78,7 @@ make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linu
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ menuconfig
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
 ```
-### How to check the current linux command line in the running system?
 
-```bash
-mount -t proc proc /proc
-cat /proc/cmdline
-dmesg | grep "Command line"
-sysctl -a 
-
-```
 #### Export
 
 ```bash
@@ -96,3 +88,29 @@ export CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=/path/to/output-directory -
 ```
 
 ## Trial3_29DEC24
+
+## Linux target commands 
+
+### How to check the current linux command line in the running system?
+
+```bash
+mount -t proc proc /proc
+cat /proc/cmdline
+dmesg | grep "Command line"
+sysctl -a 
+
+```
+
+### What is systctl?
+
+Utility to view and modify linux parameters at runtime.
+
+```bash
+#command to view current kernel parameters
+sysctl -a 
+```
+
+### TODO
+
+-[ ] How to disable sysctl ?
+-[ ] How to disable viewing linux command line ?
