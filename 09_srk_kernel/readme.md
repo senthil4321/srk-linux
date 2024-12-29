@@ -92,7 +92,9 @@ export CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=/path/to/output-directory -
 ### Changes
 
 1. CONFIG_LOCALVERSION - srk-release-3
+    - Linux 192.168.1.200 6.6.67srk-release-3 #2 SMP Sun Dec 29 17:20:22 CET 2024 armv7l GNU/Linux - OK
 2. CONFIG_DEFAULT_INIT - /sbin/hello3
+    - OK
 3. CONFIG_DEFAULT_HOSTNAME - srk3
 
 ### Procedure
