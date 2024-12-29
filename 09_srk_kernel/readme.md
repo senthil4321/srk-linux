@@ -36,9 +36,9 @@ Somehow make detects changes in .config file. If there is no change it starts ne
 
 ### Changes
 
-1. Change Hostname
-2. Change kernel Arguments
-3. Change default init
+1. Change Hostname - ?
+2. Change Kernel Arguments - ?
+3. Change default init /sbin/hello - OK
 
 ### Backup file Location
 
@@ -50,22 +50,38 @@ Somehow make detects changes in .config file. If there is no change it starts ne
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- omap2plus_defconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-
 ```
 
-### Mechanism to speed up rebuilds
+## Trial2_28DEC24
+
+Change the build output directory and use cache to speed up build.
+
+### Changes
+
+1. Change default init to /sbin/hello2
+
+### Backup file Location
+
+01_backup/01_trial1/.config
+
+### Procedure
+
+Mechanism to speed up rebuilds
 
 ```bash
 #to clean the old build Config files, backup, output directory
 make ARCH=arm mrproper
-make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ omap2plus_defconfig
-make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ menuconfig
-make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/linux-build/ -j$(nproc)
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ omap2plus_defconfig
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ menuconfig
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
 ```
 
-#### With updated 
+#### Export
 
 ```bash
 export PATH="/usr/lib/ccache:$PATH"
+#not used
 export CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=/path/to/output-directory -j$(nproc)
 ```
+
+## Trial3_29DEC24
