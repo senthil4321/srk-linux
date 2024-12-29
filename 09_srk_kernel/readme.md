@@ -14,6 +14,9 @@ To open the graphical configuration menu with a GUI, use the following command:
 make xconfig
 ```
 
+Get the kernel command line
+
+
 To compile kernel with omap2plus_defconfig
 
 ```bash
@@ -75,7 +78,15 @@ make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linu
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ menuconfig
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
 ```
+### How to check the current linux command line in the running system?
 
+```bash
+mount -t proc proc /proc
+cat /proc/cmdline
+dmesg | grep "Command line"
+sysctl -a 
+
+```
 #### Export
 
 ```bash
