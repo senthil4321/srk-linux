@@ -104,6 +104,20 @@ make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linu
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
 ```
 
+## Trial4_02JAN25
+
+### Changes
+
+1. Disable IP6 support
+
+### Procedure
+
+```bash
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ xconfig
+export PATH="/usr/lib/ccache:$PATH"
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
+```
+
 ---
 
 ## Linux target commands
