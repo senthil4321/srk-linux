@@ -163,7 +163,8 @@ bootcmd=tftp 0x81000000 zImage; sleep .2 ; tftp 0x82000000 am335x-boneblack.dtb;
 
 ### Changes
 
-1. Disable disable ip6 usb audio and partial video
+1. Disable disable ip6 usb audio and partial video - ok
+   Linux version 6.6.67srk-release-5_noip6_nous
 
 ### Procedure
 
