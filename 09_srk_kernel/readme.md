@@ -158,6 +158,30 @@ tftp 0x88000000 initramfs.cpio.gz
 bootcmd=tftp 0x81000000 zImage; sleep .2 ; tftp 0x82000000 am335x-boneblack.dtb; sleep .2 ; tftp 0x88000000 initramfs.cpio.gz ; sleep .2 ; bootz 0x81000000 0x88000000 0x82000000
 
 ```
+
+## Trial6_02JAN25 disable ip6 usb audio and partial video
+
+### Changes
+
+1. Disable disable ip6 usb audio and partial video
+
+### Procedure
+
+```bash
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ xconfig
+export PATH="/usr/lib/ccache:$PATH"
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
+```
+
+Backup Commands
+
+```bash
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/.config ./
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/arch/arm/boot/zImage ./output/
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/trial6.txt ./
+
+```
+
 ---
 
 ## Linux target commands
