@@ -118,6 +118,14 @@ export PATH="/usr/lib/ccache:$PATH"
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
 ```
 
+Backup Commands
+
+```bash
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/.config ./
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/arch/arm/boot/zImage ./output/
+
+```
+
 ---
 
 ## Linux target commands
