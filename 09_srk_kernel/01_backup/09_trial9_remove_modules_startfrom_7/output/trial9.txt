@@ -1,0 +1,246 @@
+Linux Kernel                          total |       text       data        bss
+--------------------------------------------------------------------------------
+vmlinux                            13828074 |   10268552    3275858     283664
+--------------------------------------------------------------------------------
+drivers/built-in.a                  3372319 |    3120595     212371      39353
+fs/built-in.a                       2814112 |    2472052     291562      50498
+net/built-in.a                      2198794 |    2038612     144026      16156
+kernel/built-in.a                   2022514 |    1576380     346611      99523
+lib/built-in.a                       875572 |     836249       4179      35144
+mm/built-in.a                        801138 |     684568      84313      32257
+block/built-in.a                     288199 |     271898      14397       1904
+arch/arm/built-in.a                  205897 |     177710      27386        801
+io_uring/built-in.a                  145010 |     136433       8569          8
+crypto/built-in.a                     84200 |      77036       7133         31
+security/built-in.a                   83476 |      80195       3209         72
+init/built-in.a                       36475 |      27188       9171        116
+ipc/built-in.a                        16889 |      15767       1110         12
+certs/built-in.a                        722 |        710          8          4
+usr/built-in.a                          516 |        516          0          0
+--------------------------------------------------------------------------------
+sum                                12945833 |   11515909    1154045     275879
+delta                                882241 |   -1247357    2121813       7785
+
+
+drivers                               total |       text       data        bss
+--------------------------------------------------------------------------------
+drivers/built-in.a                  3372319 |    3120595     212371      39353
+--------------------------------------------------------------------------------
+drivers/mtd/built-in.a               345123 |     335319       6688       3116
+drivers/net/built-in.a               303337 |     283122      20171         44
+drivers/base/built-in.a              283996 |     270789      12168       1039
+drivers/tty/built-in.a               283314 |     246886      16406      20022
+drivers/ata/built-in.a               233173 |     200010      31051       2112
+drivers/mmc/built-in.a               206032 |     198896       7080         56
+drivers/clk/built-in.a               194897 |     176554      18202        141
+drivers/regulator/built-in.a         191019 |     181968       9035         16
+drivers/scsi/built-in.a              155601 |     135109      20010        482
+drivers/video/built-in.a             107440 |      87448      12438       7554
+drivers/gpio/built-in.a               94269 |      91254       2986         29
+drivers/hid/built-in.a                82315 |      78306       3997         12
+drivers/mfd/built-in.a                71021 |      66713       4120        188
+drivers/of/built-in.a                 67357 |      64302        715       2340
+drivers/spi/built-in.a                52908 |      47903       4985         20
+drivers/thermal/built-in.a            52847 |      45181       7658          8
+drivers/pinctrl/built-in.a            52057 |      51196        856          5
+drivers/i2c/built-in.a                51248 |      45548       5672         28
+drivers/dma/built-in.a                50135 |      49237        818         80
+drivers/iommu/built-in.a              40107 |      37485       2606         16
+drivers/cpufreq/built-in.a            39581 |      37137       2396         48
+drivers/bus/built-in.a                37112 |      34131       2945         36
+drivers/opp/built-in.a                35055 |      34519        436        100
+drivers/dma-buf/built-in.a            33996 |      32414       1478        104
+drivers/clocksource/built-in.a        32070 |      31083        911         76
+drivers/remoteproc/built-in.a         31649 |      31153        476         20
+drivers/hsi/built-in.a                30745 |      30115        630          0
+drivers/hwmon/built-in.a              29857 |      27833       2024          0
+drivers/rtc/built-in.a                28365 |      25401       2904         60
+drivers/w1/built-in.a                 27830 |      26330       1484         16
+drivers/input/built-in.a              26744 |      25884        852          8
+drivers/virtio/built-in.a             23973 |      23525        448          0
+drivers/power/built-in.a              22433 |      17129       4964        340
+drivers/phy/built-in.a                22229 |      21342        879          8
+drivers/memory/built-in.a             21936 |      21416        144        376
+drivers/cpuidle/built-in.a            21108 |      18602       2466         40
+drivers/block/built-in.a              19821 |      19442        363         16
+drivers/irqchip/built-in.a            19693 |      17278       1835        580
+drivers/char/built-in.a               19228 |      17981       1167         80
+drivers/ptp/built-in.a                16345 |      14957       1376         12
+drivers/counter/built-in.a            15984 |      15516        464          4
+drivers/nvmem/built-in.a              12714 |      12266        444          4
+drivers/pwm/built-in.a                11365 |      10265        972        128
+drivers/extcon/built-in.a              9598 |       9382        212          4
+drivers/soc/built-in.a                 8031 |       7899        124          8
+drivers/perf/built-in.a                7708 |       7665         42          1
+drivers/misc/built-in.a                7325 |       7121        204          0
+drivers/reset/built-in.a               7211 |       7047        164          0
+drivers/pmdomain/built-in.a            7178 |       7066        112          0
+drivers/connector/built-in.a           5906 |       5834         40         32
+drivers/pps/built-in.a                 5155 |       4951        196          8
+drivers/leds/built-in.a                4344 |       4240        104          0
+drivers/mailbox/built-in.a             3800 |       3716         84          0
+drivers/pci/built-in.a                  671 |        663          8          0
+--------------------------------------------------------------------------------
+sum                                 3564956 |    3304529     221010      39417
+delta                               -192637 |    -183934      -8639        -64
+
+
+fs                                    total |       text       data        bss
+--------------------------------------------------------------------------------
+fs/built-in.a                       2814112 |    2472052     291562      50498
+--------------------------------------------------------------------------------
+fs/nfs/built-in.a                    618613 |     441054     176839        720
+fs/ext4/built-in.a                   614255 |     550404      63275        576
+fs/*.o                               548926 |     513061      25649      10216
+fs/ubifs/built-in.a                  253794 |     253274        452         68
+fs/jffs2/built-in.a                  120298 |     119658        460        180
+fs/proc/built-in.a                   105065 |     104468        585         12
+fs/jbd2/built-in.a                    83404 |      74453       8891         60
+fs/fat/built-in.a                     67103 |      66785        286         32
+fs/lockd/built-in.a                   57838 |      54407       2319       1112
+fs/ext2/built-in.a                    55717 |      52985       2728          4
+fs/quota/built-in.a                   48539 |      46915       1316        308
+fs/iomap/built-in.a                   45639 |      39288       6215        136
+fs/notify/built-in.a                  41323 |      40636        650         37
+fs/cramfs/built-in.a                  37856 |       4952         64      32840
+fs/kernfs/built-in.a                  26749 |      22538         87       4124
+fs/configfs/built-in.a                22514 |      22171        327         16
+fs/debugfs/built-in.a                 20830 |      20613        205         12
+fs/autofs/built-in.a                  20425 |      20337         88          0
+fs/nls/built-in.a                     11246 |      11090        152          4
+fs/tracefs/built-in.a                 10973 |      10410        550         13
+fs/sysfs/built-in.a                   10509 |      10313        184         12
+fs/devpts/built-in.a                   4045 |       3839        198          8
+fs/nfs_common/built-in.a               3798 |       3717         73          8
+fs/exportfs/built-in.a                 2897 |       2880         17          0
+fs/ramfs/built-in.a                    2181 |       2141         40          0
+--------------------------------------------------------------------------------
+sum                                 2834537 |    2492389     291650      50498
+delta                                -20425 |     -20337        -88          0
+
+
+net                                   total |       text       data        bss
+--------------------------------------------------------------------------------
+net/built-in.a                      2198794 |    2038612     144026      16156
+--------------------------------------------------------------------------------
+net/core/built-in.a                  578150 |     531338      43856       2956
+net/ipv4/built-in.a                  557874 |     537135      16371       4368
+net/sunrpc/built-in.a                398653 |     331531      64090       3032
+net/rxrpc/built-in.a                 211740 |     161076      50551        113
+net/bridge/built-in.a                166317 |     164847       1462          8
+net/devlink/built-in.a               125743 |     121564       4163         16
+net/xfrm/built-in.a                  124099 |     120307       1812       1980
+net/ethtool/built-in.a               101524 |     101221        294          9
+net/sched/built-in.a                  87063 |      84828       2199         36
+net/netlink/built-in.a                40032 |      39059        957         16
+net/packet/built-in.a                 35678 |      35335        341          2
+net/unix/built-in.a                   33278 |      30527        690       2061
+net/phonet/built-in.a                 32756 |      30822        802       1132
+net/key/built-in.a                    29292 |      28927        361          4
+net/handshake/built-in.a              24965 |      18806       6067         92
+net/*.o                               23505 |      22903        550         52
+net/8021q/built-in.a                  19845 |      19513        332          0
+net/netfilter/built-in.a              14289 |      12275        514       1500
+net/ipv6/built-in.a                   10792 |       9480       1300         12
+net/switchdev/built-in.a               5871 |       5718        141         12
+net/dns_resolver/built-in.a            4782 |       4566        208          8
+net/ethernet/built-in.a                3204 |       3092        112          0
+net/llc/built-in.a                     2226 |       2122         88         16
+--------------------------------------------------------------------------------
+sum                                 2631678 |    2416992     197261      17425
+delta                               -432884 |    -378380     -53235      -1269
+
+
+kernel                                total |       text       data        bss
+--------------------------------------------------------------------------------
+kernel/built-in.a                   2022514 |    1576380     346611      99523
+--------------------------------------------------------------------------------
+kernel/*.o                           471157 |     438141      24396       8620
+kernel/printk/built-in.a             310024 |      33655     207393      68976
+kernel/sched/built-in.a              291126 |     263510      21660       5956
+kernel/trace/built-in.a              278365 |     230697      37535      10133
+kernel/time/built-in.a               148003 |     128090      16409       3504
+kernel/events/built-in.a             126901 |     123687       2698        516
+kernel/cgroup/built-in.a             115870 |      98158      15923       1789
+kernel/rcu/built-in.a                101619 |      90666      10877         76
+kernel/irq/built-in.a                 65817 |      64348       1401         68
+kernel/bpf/built-in.a                 39625 |      32938       6635         52
+kernel/module/built-in.a              37872 |      34511       2233       1128
+kernel/locking/built-in.a             34803 |      33766       1033          4
+kernel/futex/built-in.a               22292 |      22231         53          8
+kernel/power/built-in.a               19473 |      18464        925         84
+kernel/dma/built-in.a                 16507 |      16322        180          5
+--------------------------------------------------------------------------------
+sum                                 2079454 |    1629184     349351     100919
+delta                                -56940 |     -52804      -2740      -1396
+
+
+lib                                   total |       text       data        bss
+--------------------------------------------------------------------------------
+lib/built-in.a                       875572 |     836249       4179      35144
+--------------------------------------------------------------------------------
+lib/zstd/built-in.a                  535729 |     535589        136          4
+lib/*.o                              420103 |     378412       8683      33008
+lib/crypto/built-in.a                 51641 |      51400        217         24
+lib/zlib_deflate/built-in.a           20037 |      17673         84       2280
+lib/lz4/built-in.a                    14231 |      14199         32          0
+lib/zlib_inflate/built-in.a           12629 |      12601         28          0
+lib/xz/built-in.a                     11628 |      11576         52          0
+lib/fonts/built-in.a                   6786 |       6774         12          0
+lib/lzo/built-in.a                     5312 |       5300         12          0
+lib/math/built-in.a                    4178 |       4110         68          0
+--------------------------------------------------------------------------------
+sum                                 1082274 |    1037634       9324      35316
+delta                               -206702 |    -201385      -5145       -172
+
+
+block                                 total |       text       data        bss
+--------------------------------------------------------------------------------
+block/built-in.a                     288199 |     271898      14397       1904
+--------------------------------------------------------------------------------
+block/*.o                            275230 |     259116      14214       1900
+block/partitions/built-in.a           13249 |      13057        188          4
+--------------------------------------------------------------------------------
+sum                                  288479 |     272173      14402       1904
+delta                                  -280 |       -275         -5          0
+
+
+arch/arm                              total |       text       data        bss
+--------------------------------------------------------------------------------
+arch/arm/built-in.a                  205897 |     177710      27386        801
+--------------------------------------------------------------------------------
+arch/arm/mach-omap2/built-in.a       239931 |     148449      88269       3213
+arch/arm/kernel/built-in.a           101833 |      89556      11685        592
+arch/arm/mm/built-in.a                70931 |      60196      10543        192
+arch/arm/vfp/built-in.a               23752 |      22743        997         12
+arch/arm/probes/built-in.a             5201 |       5135         61          5
+arch/arm/vdso/built-in.a               4096 |          0       4096          0
+arch/arm/common/built-in.a               84 |         80          4          0
+--------------------------------------------------------------------------------
+sum                                  445828 |     326159     115655       4014
+delta                               -239931 |    -148449     -88269      -3213
+
+
+crypto                                total |       text       data        bss
+--------------------------------------------------------------------------------
+crypto/built-in.a                     84200 |      77036       7133         31
+--------------------------------------------------------------------------------
+crypto/*.o                           274427 |     225071      39464       9892
+crypto/asymmetric_keys/built-in.a      23280 |      22958        305         17
+--------------------------------------------------------------------------------
+sum                                  297707 |     248029      39769       9909
+delta                               -213507 |    -170993     -32636      -9878
+
+
+security                              total |       text       data        bss
+--------------------------------------------------------------------------------
+security/built-in.a                   83476 |      80195       3209         72
+--------------------------------------------------------------------------------
+security/keys/built-in.a              42652 |      41547       1069         36
+security/*.o                          39144 |      37028       2096         20
+security/integrity/built-in.a          1680 |       1620         44         16
+--------------------------------------------------------------------------------
+sum                                   83476 |      80195       3209         72
+delta                                     0 |          0          0          0
+
+
