@@ -183,6 +183,10 @@ scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/trial6.txt ./
 
 ```
 
+## Trial7_02JAN25 no pci and wifi
+
+## Trial8_02JAN25 no kernel Module
+
 ---
 
 ## Linux target commands
