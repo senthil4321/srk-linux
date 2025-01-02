@@ -104,7 +104,7 @@ make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linu
 make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
 ```
 
-## Trial4_02JAN25
+## Trial4_02JAN25 Disable ip6
 
 ### Changes
 
@@ -126,6 +126,38 @@ scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/arch/arm/boot/zImage ./out
 
 ```
 
+## Trial5_02JAN25 rootfs initramfs
+
+### Changes
+
+1. rootfs in initramfs
+
+### Procedure
+
+```bash
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ xconfig
+export PATH="/usr/lib/ccache:$PATH"
+make ARCH=arm CROSS_COMPILE="ccache arm-linux-gnueabihf-" O=~/project/srk-1-linux-build/ -j$(nproc)
+```
+
+Backup Commands
+
+```bash
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/.config ./
+scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/arch/arm/boot/zImage ./output/
+
+#create cpio initramfs file
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > /tmp/initramfs.cpio.gz
+
+#uboot load initramfs
+
+
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > /tmp/initramfs.cpio.gz
+
+tftp 0x88000000 initramfs.cpio.gz
+bootcmd=tftp 0x81000000 zImage; sleep .2 ; tftp 0x82000000 am335x-boneblack.dtb; sleep .2 ; tftp 0x88000000 initramfs.cpio.gz ; sleep .2 ; bootz 0x81000000 0x88000000 0x82000000
+
+```
 ---
 
 ## Linux target commands
