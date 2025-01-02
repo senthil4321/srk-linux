@@ -187,6 +187,14 @@ scp srk2cob@192.168.0.216:~/project/srk-1-linux-build/trial6.txt ./
 
 ## Trial8_02JAN25 no kernel Module
 
+   Removing modules without setting modules to no increased the kernel size. Moduels are compiled into the kernel.
+
+## Trial9_02JAN25 remove all modules trial7 config as input.
+
+```bash
+sed -i 's/=m$/=n/' .config
+```
+
 ---
 
 ## Linux target commands
