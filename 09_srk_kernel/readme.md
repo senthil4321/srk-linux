@@ -157,6 +157,9 @@ find . -print0 | cpio --null -ov --format=newc | gzip -9 > /tmp/initramfs.cpio.g
 tftp 0x88000000 initramfs.cpio.gz
 bootcmd=tftp 0x81000000 zImage; sleep .2 ; tftp 0x82000000 am335x-boneblack.dtb; sleep .2 ; tftp 0x88000000 initramfs.cpio.gz ; sleep .2 ; bootz 0x81000000 0x88000000 0x82000000
 
+#trial2
+tftp 0x88000000 rootfs-srk-2.cpio.gz
+bootcmd=tftp 0x81000000 zImage; sleep .2 ; tftp 0x82000000 am335x-boneblack.dtb; sleep .2 ; tftp 0x88000000 rootfs-srk-2.cpio.gz ; sleep .2 ; bootz 0x81000000 0x88000000 0x82000000
 ```
 
 ## Trial6_02JAN25 disable ip6 usb audio and partial video
