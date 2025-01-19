@@ -1,0 +1,24 @@
+5ad628cde000-5ad628cdf000 r--p 00000000 08:01 1145723                    /home/srk2cob/project/srk-linux/11_stack_heap/hello (deleted)
+5ad628cdf000-5ad628ce0000 r-xp 00001000 08:01 1145723                    /home/srk2cob/project/srk-linux/11_stack_heap/hello (deleted)
+5ad628ce0000-5ad628ce1000 r--p 00002000 08:01 1145723                    /home/srk2cob/project/srk-linux/11_stack_heap/hello (deleted)
+5ad628ce1000-5ad628ce2000 r--p 00002000 08:01 1145723                    /home/srk2cob/project/srk-linux/11_stack_heap/hello (deleted)
+5ad628ce2000-5ad628ce3000 rw-p 00003000 08:01 1145723                    /home/srk2cob/project/srk-linux/11_stack_heap/hello (deleted)
+5ad629365000-5ad629386000 rw-p 00000000 00:00 0                          [heap]
+7ba896a00000-7ba896a28000 r--p 00000000 08:01 6185                       /usr/lib/x86_64-linux-gnu/libc.so.6
+7ba896a28000-7ba896bbd000 r-xp 00028000 08:01 6185                       /usr/lib/x86_64-linux-gnu/libc.so.6
+7ba896bbd000-7ba896c15000 r--p 001bd000 08:01 6185                       /usr/lib/x86_64-linux-gnu/libc.so.6
+7ba896c15000-7ba896c16000 ---p 00215000 08:01 6185                       /usr/lib/x86_64-linux-gnu/libc.so.6
+7ba896c16000-7ba896c1a000 r--p 00215000 08:01 6185                       /usr/lib/x86_64-linux-gnu/libc.so.6
+7ba896c1a000-7ba896c1c000 rw-p 00219000 08:01 6185                       /usr/lib/x86_64-linux-gnu/libc.so.6
+7ba896c1c000-7ba896c29000 rw-p 00000000 00:00 0 
+7ba896da1000-7ba896da4000 rw-p 00000000 00:00 0 
+7ba896db6000-7ba896db8000 rw-p 00000000 00:00 0 
+7ba896db8000-7ba896dba000 r--p 00000000 08:01 3410                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ba896dba000-7ba896de4000 r-xp 00002000 08:01 3410                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ba896de4000-7ba896def000 r--p 0002c000 08:01 3410                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ba896df0000-7ba896df2000 r--p 00037000 08:01 3410                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ba896df2000-7ba896df4000 rw-p 00039000 08:01 3410                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7fffa6d39000-7fffa6d5a000 rw-p 00000000 00:00 0                          [stack]
+7fffa6d6c000-7fffa6d70000 r--p 00000000 00:00 0                          [vvar]
+7fffa6d70000-7fffa6d72000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
