@@ -11,7 +11,7 @@ int main(void)
                fprintf(stderr, "Error \n");
                return (-1);
         }
-        for (i = 0; i < 100; i++)
+        for (i = 0; i < 1000; i++)
         {
                 printf("[%d] %s (%p)\n", i, str, &str);
                 sleep(1);
