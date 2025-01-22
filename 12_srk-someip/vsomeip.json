@@ -1,0 +1,40 @@
+{
+    "unicast": "127.0.0.1",
+    "logging": {
+        "level": "debug",
+        "console": "true",
+        "file": {
+            "enable": "false",
+            "path": "/var/log/vsomeip.log"
+        }
+    },
+    "applications": [
+        {
+            "name": "Service",
+            "id": "0x1234"
+        },
+        {
+            "name": "Client",
+            "id": "0x5678"
+        }
+    ],
+    "services": [
+        {
+            "service": "0x1234",
+            "instance": "0x5678",
+            "unreliable": {
+                "port": "30509"
+            },
+            "reliable": {
+                "port": "30510"
+            }
+        }
+    ],
+    "routing": {
+        "service": "0x1234",
+        "instance": "0x5678",
+        "clients": [
+            "0x5678"
+        ]
+    }
+}
