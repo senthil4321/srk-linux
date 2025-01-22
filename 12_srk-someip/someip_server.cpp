@@ -20,8 +20,6 @@ private:
     void on_message(const std::shared_ptr<vsomeip::message> &msg) {
         std::cout << "Received message: ";
         auto payload = msg->get_payload();
-        auto data = payload->get_data();
-        std::cout.write(reinterpret_cast<const char*>(data.get()), payload->get_length());
         std::cout << std::endl;
         // Process the message
     }
