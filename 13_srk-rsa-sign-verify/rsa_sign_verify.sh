@@ -1,4 +1,9 @@
 #!/bin/bash
+# Copyright (c) 2025 Senthil Kumar
+# Author: Senthil Kumar
+# Permission required for commercial use. Please acknowledge the author.
+# This program is free for personal and educational use.
+# Contact: senthil4321 (GitHub)
 # Version: 1.0.0
 # RSA Sign and Verify Script
 VERSION="1.0.0"

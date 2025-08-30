@@ -1,4 +1,9 @@
 #!/bin/bash
+# Copyright (c) 2025 Senthil Kumar
+# Author: Senthil Kumar
+# Permission required for commercial use. Please acknowledge the author.
+# This program is free for personal and educational use.
+# Contact: senthil4321 (GitHub)
 # Unit tests for rsa_sign_verify.sh
 set -e
 
@@ -16,8 +21,9 @@ rm -f "$TEST_LOG" "$PRIVKEY" "$PUBKEY" "$DATAFILE" "$SIGFILE"
 echo "Hello, RSA Test!" > "$DATAFILE"
 
 # Generate key pair
+SCRIPT_DIR="$(dirname "$0")"
 echo "Generating RSA key pair..." | tee -a "$TEST_LOG"
-./rsa_gen_keys.sh $KEYSIZE "$PRIVKEY" "$PUBKEY"
+"$SCRIPT_DIR/rsa_gen_keys.sh" $KEYSIZE "$PRIVKEY" "$PUBKEY"
 if [ $? -eq 0 ]; then
     echo "Key generation: PASS" | tee -a "$TEST_LOG"
 else
@@ -27,7 +33,7 @@ fi
 
 # Sign the file
 echo "Signing data file..." | tee -a "$TEST_LOG"
-./rsa_sign_verify.sh sign "$PRIVKEY" "$DATAFILE" "$SIGFILE"
+"$SCRIPT_DIR/rsa_sign_verify.sh" sign "$PRIVKEY" "$DATAFILE" "$SIGFILE"
 if [ $? -eq 0 ]; then
     echo "Signing: PASS" | tee -a "$TEST_LOG"
 else
@@ -37,7 +43,7 @@ fi
 
 # Verify the signature
 echo "Verifying signature..." | tee -a "$TEST_LOG"
-./rsa_sign_verify.sh verify "$PUBKEY" "$DATAFILE" "$SIGFILE"
+"$SCRIPT_DIR/rsa_sign_verify.sh" verify "$PUBKEY" "$DATAFILE" "$SIGFILE"
 if [ $? -eq 0 ]; then
     echo "Verification: PASS" | tee -a "$TEST_LOG"
 else
