@@ -2,5 +2,9 @@
     "files.associations": {
         "*.conf": "bitbake",
         "*.inc": "bitbake"
+    },
+    "files.exclude": {
+        ".gitignore": true,
+        ".gitattributes": true
     }
 }
