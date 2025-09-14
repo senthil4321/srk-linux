@@ -1,169 +1,140 @@
-/* Systemd Configurator SPA v1.0.0 (2025-09-14) */
+/* Systemd Unit File Viewer v1.0.0 (2025-09-14) */
 (function () {
   'use strict';
 
   const fileInput = document.getElementById('fileInput');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const editor = document.getElementById('editor');
-  const preview = document.getElementById('preview');
-  const filenameEl = document.getElementById('filename');
-  const newUnitBtn = document.getElementById('newUnitBtn');
-  const newUnitDialog = document.getElementById('newUnitDialog');
-  const unitTypeSelect = document.getElementById('unitTypeSelect');
-  const unitTypeForm = document.getElementById('unitTypeForm');
-  const manpageLink = document.getElementById('manpageLink');
-  const newUnitBtn = document.getElementById('newUnitBtn');
-  const newUnitDialog = document.getElementById('newUnitDialog');
-  const unitTypeSelect = document.getElementById('unitTypeSelect');
-  const unitTypeForm = document.getElementById('unitTypeForm');
+  const fileContent = document.getElementById('fileContent');
+  const currentFileName = document.getElementById('currentFileName');
+  const currentFileType = document.getElementById('currentFileType');
+  const unitInfoDialog = document.getElementById('unitInfoDialog');
+  const unitTypeDescription = document.getElementById('unitTypeDescription');
+  const unitManPage = document.getElementById('unitManPage');
 
-  // Unit type templates and form fields
+  // Unit type descriptions and documentation
   const unitTypes = {
     service: {
-      name: 'Service',
-      extension: '.service',
-      description: 'Service/Daemon Process',
-      template: `[Unit]
-Description={description}
-After={after}
-Wants={wants}
-
-[Service]
-Type={type}
-ExecStart={execStart}
-{additionalDirectives}
-
-[Install]
-WantedBy={target}`,
-      fields: [
-        { name: 'description', label: 'Description', type: 'text', required: true },
-        { name: 'type', label: 'Service Type', type: 'select', options: ['simple', 'forking', 'oneshot', 'notify'], required: true },
-        { name: 'execStart', label: 'ExecStart Command', type: 'text', required: true },
-        { name: 'after', label: 'After Units', type: 'text', placeholder: 'network.target' },
-        { name: 'wants', label: 'Wants Units', type: 'text', placeholder: 'network.target' },
-        { name: 'target', label: 'Install Target', type: 'select', options: ['multi-user.target', 'graphical.target', 'network.target'] }
-      ]
+      name: 'Service Unit',
+      description: 'Service units are the most common unit type in systemd, managing daemons and processes. They define how systemd starts, stops and monitors services.',
+      manpage: 'systemd.service',
+      examples: ['nginx.service', 'sshd.service', 'mysql.service']
     },
     socket: {
-      name: 'Socket',
-      extension: '.socket',
-      template: `[Unit]
-Description={description}
-
-[Socket]
-ListenStream={listenStream}
-Accept={accept}
-
-[Install]
-WantedBy={target}`,
-      fields: [
-        { name: 'description', label: 'Description', type: 'text', required: true },
-        { name: 'listenStream', label: 'Listen Stream', type: 'text', required: true },
-        { name: 'accept', label: 'Accept', type: 'select', options: ['yes', 'no'] },
-        { name: 'target', label: 'Install Target', type: 'select', options: ['sockets.target'] }
-      ]
+      name: 'Socket Unit',
+      description: 'Socket units manage network or IPC sockets, enabling socket-based activation. They can start associated services when a connection arrives.',
+      manpage: 'systemd.socket',
+      examples: ['cups.socket', 'docker.socket']
+    },
+    target: {
+      name: 'Target Unit',
+      description: 'Target units group other units together and provide synchronization points during boot. They are similar to runlevels in SysV init.',
+      manpage: 'systemd.target',
+      examples: ['multi-user.target', 'graphical.target']
+    },
+    device: {
+      name: 'Device Unit',
+      description: 'Device units expose kernel devices in systemd and can be used to implement device-based activation.',
+      manpage: 'systemd.device',
+      examples: ['dev-sda.device']
+    },
+    mount: {
+      name: 'Mount Unit',
+      description: 'Mount units control the mounting of filesystems. They replace entries in /etc/fstab with a more dynamic approach.',
+      manpage: 'systemd.mount',
+      examples: ['home.mount', 'mnt-data.mount']
+    },
+    automount: {
+      name: 'Automount Unit',
+      description: 'Automount units provide automounting capabilities, allowing on-demand mounting of filesystems.',
+      manpage: 'systemd.automount',
+      examples: ['proc-sys-fs-binfmt_misc.automount']
+    },
+    timer: {
+      name: 'Timer Unit',
+      description: 'Timer units trigger other units based on time events. They can replace traditional cron jobs.',
+      manpage: 'systemd.timer',
+      examples: ['logrotate.timer', 'backup.timer']
+    },
+    swap: {
+      name: 'Swap Unit',
+      description: 'Swap units manage swap spaces on the system, similar to entries in /etc/fstab but with more features.',
+      manpage: 'systemd.swap',
+      examples: ['dev-mapper-swap.swap']
+    },
+    path: {
+      name: 'Path Unit',
+      description: 'Path units activate other units when filesystem objects change or become available.',
+      manpage: 'systemd.path',
+      examples: ['tmp-cleanup.path']
+    },
+    slice: {
+      name: 'Slice Unit',
+      description: 'Slice units manage groups of services in the Linux Control Group (cgroup) hierarchy.',
+      manpage: 'systemd.slice',
+      examples: ['system.slice', 'user-1000.slice']
+    },
+    scope: {
+      name: 'Scope Unit',
+      description: 'Scope units manage sets of externally created processes. Unlike services, they manage already running processes.',
+      manpage: 'systemd.scope',
+      examples: ['session-1.scope']
     }
   };
 
-  // Common systemd sections and directives (subset)
-  const directives = {
-    'Unit': [
-      'Description', 'Documentation', 'Requires', 'Wants', 'Before', 'After', 'ConditionPathExists'
-    ],
-    'Service': [
-      'Type', 'ExecStart', 'ExecStartPre', 'ExecStartPost', 'ExecStop', 'ExecReload', 'Restart', 'RestartSec', 'User', 'Group', 'WorkingDirectory', 'Environment', 'EnvironmentFile'
-    ],
-    'Install': [
-      'WantedBy', 'RequiredBy', 'Alias'
-    ],
-    'Socket': ['ListenStream', 'ListenDatagram', 'Service'],
-    'Timer': ['OnCalendar', 'OnUnitActiveSec', 'OnBootSec', 'Unit'],
-    'Path': ['PathExists', 'PathChanged', 'Unit']
-  };
-
-  // Populate section dropdown
-  function populateSections() {
-    Object.keys(directives).forEach(sec => {
-      const opt = document.createElement('option');
-      opt.value = sec; opt.textContent = `[${sec}]`;
-      sectionSelect.appendChild(opt);
-    });
+  // Detect unit type from filename
+  function detectUnitType(filename) {
+    const match = filename.match(/\.(service|socket|target|device|mount|automount|timer|swap|path|slice|scope)$/);
+    return match ? match[1] : null;
   }
 
-  // Populate directive dropdown for a section
-  function populateDirectives(section) {
-    directiveSelect.innerHTML = '';
-    const placeholder = document.createElement('option');
-    placeholder.value = ''; placeholder.textContent = 'Select directive…';
-    directiveSelect.appendChild(placeholder);
+  // Show unit type information in right pane
+  function showUnitTypeInfo(type) {
+    const unitType = unitTypes[type];
+    if (!unitType) return;
 
-    if (!section) { directiveSelect.disabled = true; return; }
-    directives[section].forEach(dir => {
-      const opt = document.createElement('option');
-      opt.value = dir; opt.textContent = dir;
-      directiveSelect.appendChild(opt);
-    });
-    directiveSelect.disabled = false;
+    document.getElementById('unitHelpTitle').textContent = unitType.name;
+    document.getElementById('unitHelpText').innerHTML = `
+      <p>${unitType.description}</p>
+      <p><strong>Common examples:</strong> ${unitType.examples.join(', ')}</p>
+      <p><a href="https://www.freedesktop.org/software/systemd/man/${unitType.manpage}.html" target="_blank">View Manual Page</a></p>
+    `;
   }
 
-  // Insert directive template into the editor at cursor
-  function insertDirective(section, directive) {
-    if (!section || !directive) return;
-    const tmpl = `\n[${section}]\n${directive}=`;
-    const start = editor.selectionStart;
-    const end = editor.selectionEnd;
-    const before = editor.value.substring(0, start);
-    const after = editor.value.substring(end);
-    editor.value = `${before}${tmpl}${after}`;
-    editor.focus();
-    editor.selectionStart = editor.selectionEnd = before.length + tmpl.length;
-    updatePreview();
-  }
-
-  function updatePreview() {
-    preview.textContent = editor.value;
-  }
-
-  function loadFile(file) {
+  // Handle file selection
+  function handleFileSelect(event) {
+    const file = event.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
-    reader.onload = () => {
-      editor.value = reader.result;
-      filenameEl.value = file.name || '';
-      updatePreview();
+    reader.onload = (e) => {
+      fileContent.textContent = e.target.result;
+      currentFileName.textContent = file.name;
+      
+      const unitType = detectUnitType(file.name);
+      if (unitType) {
+        currentFileType.textContent = unitTypes[unitType].name;
+        showUnitTypeInfo(unitType);
+      }
     };
     reader.readAsText(file);
   }
 
-  function saveToDisk() {
-    const name = filenameEl.value.trim() || 'unit.service';
-    const blob = new Blob([editor.value], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 0);
+  // Event Listeners
+  fileInput.addEventListener('change', handleFileSelect);
+
+  // Tab click listeners to update help panel
+  document.querySelectorAll('.mdl-layout__tab').forEach(tab => {
+    tab.addEventListener('click', function (e) {
+      const href = tab.getAttribute('href');
+      if (href && href.endsWith('-tab')) {
+        const type = href.replace('#', '').replace('-tab', '');
+        showUnitTypeInfo(type);
+      }
+    });
+  });
+
+  // Initialize Material Design Lite components
+  if (window.componentHandler) {
+    window.componentHandler.upgradeAllRegistered();
   }
 
-  // Wire up events
-  fileInput.addEventListener('change', (e) => loadFile(e.target.files[0]));
-  editor.addEventListener('input', updatePreview);
-  saveBtn.addEventListener('click', saveToDisk);
-  downloadBtn.addEventListener('click', saveToDisk);
-  sectionSelect.addEventListener('change', (e) => {
-    populateDirectives(e.target.value);
-    insertDirectiveBtn.disabled = !e.target.value;
-  });
-  directiveSelect.addEventListener('change', (e) => {
-    insertDirectiveBtn.disabled = !(sectionSelect.value && e.target.value);
-  });
-  insertDirectiveBtn.addEventListener('click', () => insertDirective(sectionSelect.value, directiveSelect.value));
-
-  populateSections();
-  updatePreview();
 })();

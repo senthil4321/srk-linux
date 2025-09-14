@@ -11,61 +11,64 @@
 </head>
 <body class="mdl-base">
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header mdl-color--indigo-500">
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--indigo-500">
       <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">Systemd Configurator</span>
-        <small class="version-info">v1.0.0 (2025-09-14)</small>
+        <span class="mdl-layout-title">Systemd Unit File Viewer</span>
+  <small class="version-info">v1.1.0 (2025-09-14)</small>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
-          <button id="newUnitBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">New Unit</button>
-          <label class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" for="fileInput">Load</label>
+          <label class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" for="fileInput">Load Unit File</label>
           <input id="fileInput" type="file" accept=".service,.socket,.target,.timer,.path,.mount,.slice,.swap,.link,.netdev,.network,.conf,.d" style="display:none" />
-          <button id="saveBtn" class="mdl-button mdl-js-button mdl-button--raised">Save</button>
-          <button id="downloadBtn" class="mdl-button mdl-js-button">Download</button>
         </nav>
       </div>
       
       <!-- Unit Type Tabs -->
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#service-tab" class="mdl-layout__tab is-active">Service</a>
-        <a href="#socket-tab" class="mdl-layout__tab">Socket</a>
-        <a href="#target-tab" class="mdl-layout__tab">Target</a>
-        <a href="#timer-tab" class="mdl-layout__tab">Timer</a>
-        <a href="#path-tab" class="mdl-layout__tab">Path</a>
-        <a href="#more-tab" class="mdl-layout__tab">More Types...</a>
+        <a href="#service-tab" class="mdl-layout__tab">1. Service Units (.service)</a>
+        <a href="#socket-tab" class="mdl-layout__tab">2. Socket Units (.socket)</a>
+        <a href="#target-tab" class="mdl-layout__tab">3. Target Units (.target)</a>
+        <a href="#device-tab" class="mdl-layout__tab">4. Device Units (.device)</a>
+        <a href="#mount-tab" class="mdl-layout__tab">5. Mount Units (.mount)</a>
+        <a href="#automount-tab" class="mdl-layout__tab">6. Automount (.automount)</a>
+        <a href="#timer-tab" class="mdl-layout__tab">7. Timer Units (.timer)</a>
+        <a href="#swap-tab" class="mdl-layout__tab">8. Swap Units (.swap)</a>
+        <a href="#path-tab" class="mdl-layout__tab">9. Path Units (.path)</a>
+        <a href="#slice-tab" class="mdl-layout__tab">10. Slice Units (.slice)</a>
+        <a href="#scope-tab" class="mdl-layout__tab">11. Scope Units (.scope)</a>
       </div>
     </header>
 
     <main class="mdl-layout__content">
-      <div class="page-content">
-        <section class="controls">
-          <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="filename" placeholder="Optional filename" />
-                <label class="mdl-textfield__label" for="filename">Filename (optional)</label>
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="file-viewer mdl-shadow--2dp">
+            <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--12-col">
+                <div class="current-file">
+                  <span id="currentFileName"></span>
+                  <span id="currentFileType"></span>
+                </div>
+                <pre id="fileContent" class="content-viewer"></pre>
               </div>
             </div>
           </div>
-        </section>
-
-        <section class="editor">
-          <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-              <textarea id="editor" class="mdl-textfield__input editor-textarea" placeholder="# Paste or load a systemd unit file here"></textarea>
+        </div>
+        <div class="split-right">
+          <div id="unitHelpPanel">
+            <div class="unit-info mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text" id="unitHelpTitle">Systemd Unit Help</h2>
+              </div>
+              <div class="mdl-card__supporting-text" id="unitHelpText">
+                <p>Select a unit type tab to view help and documentation.</p>
+              </div>
             </div>
           </div>
-        </section>
-
-        <section class="preview">
-          <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-              <pre id="preview" class="preview-box"></pre>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
     </main>
+
+    <!-- Removed popup help dialog -->
   </div>
 
   <!-- New Unit Wizard Dialog -->
