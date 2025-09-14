@@ -8,6 +8,7 @@ This folder contains a single-page web application for editing and viewing syste
 
 - Edit and view systemd unit files (e.g., .service, .timer, .socket)
 - User-friendly web interface
+
 - Live preview and validation
 - Save changes to disk
 
