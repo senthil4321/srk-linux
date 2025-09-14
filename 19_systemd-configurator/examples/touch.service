@@ -1,0 +1,6 @@
+[Unit]
+Description=Touch handler
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'date >> /tmp/trigger.log'

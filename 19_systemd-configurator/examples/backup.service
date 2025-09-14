@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup home to /backup
+Wants=backup.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rsync -a --delete /home/ /backup/home/
+
+[Install]
+WantedBy=multi-user.target

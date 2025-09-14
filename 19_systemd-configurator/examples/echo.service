@@ -1,0 +1,7 @@
+[Unit]
+Description=Echo Service for echo.socket
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c 'while read line; do echo "$line"; done'
+StandardInput=socket

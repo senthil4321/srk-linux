@@ -1,0 +1,10 @@
+[Unit]
+Description=Run home backup nightly
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+Unit=backup.service
+
+[Install]
+WantedBy=timers.target

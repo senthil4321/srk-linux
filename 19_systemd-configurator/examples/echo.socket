@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Socket (TCP 9999)
+
+[Socket]
+ListenStream=9999
+Accept=false
+Service=echo.service
+
+[Install]
+WantedBy=sockets.target

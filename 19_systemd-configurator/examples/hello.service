@@ -1,0 +1,11 @@
+[Unit]
+Description=Hello World Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c 'echo Hello, world! && sleep 60'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
