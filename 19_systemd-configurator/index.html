@@ -16,11 +16,22 @@
         <span class="mdl-layout-title">Systemd Configurator</span>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
+          <button id="newUnitBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">New Unit</button>
           <label class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" for="fileInput">Load</label>
           <input id="fileInput" type="file" accept=".service,.socket,.target,.timer,.path,.mount,.slice,.swap,.link,.netdev,.network,.conf,.d" style="display:none" />
           <button id="saveBtn" class="mdl-button mdl-js-button mdl-button--raised">Save</button>
           <button id="downloadBtn" class="mdl-button mdl-js-button">Download</button>
         </nav>
+      </div>
+      
+      <!-- Unit Type Tabs -->
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#service-tab" class="mdl-layout__tab is-active">Service</a>
+        <a href="#socket-tab" class="mdl-layout__tab">Socket</a>
+        <a href="#target-tab" class="mdl-layout__tab">Target</a>
+        <a href="#timer-tab" class="mdl-layout__tab">Timer</a>
+        <a href="#path-tab" class="mdl-layout__tab">Path</a>
+        <a href="#more-tab" class="mdl-layout__tab">More Types...</a>
       </div>
     </header>
 
@@ -78,6 +89,67 @@
       </div>
     </main>
   </div>
+
+  <!-- New Unit Wizard Dialog -->
+  <dialog class="mdl-dialog" id="newUnitDialog">
+    <h4 class="mdl-dialog__title">Create New Systemd Unit</h4>
+    <div class="mdl-dialog__content">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <select id="unitTypeSelect" class="mdl-textfield__input">
+          <option value="">Select unit type...</option>
+          <option value="service">.service - Service/Daemon Process</option>
+          <option value="socket">.socket - IPC/Network Socket</option>
+          <option value="target">.target - Group/Milestone</option>
+          <option value="device">.device - Device Unit</option>
+          <option value="mount">.mount - Filesystem Mount</option>
+          <option value="automount">.automount - Auto Mount</option>
+          <option value="timer">.timer - Scheduled Tasks</option>
+          <option value="swap">.swap - Swap Space</option>
+          <option value="path">.path - Path Monitor</option>
+          <option value="slice">.slice - Resource Control</option>
+          <option value="scope">.scope - External Process</option>
+        </select>
+      </div>
+      
+      <!-- Dynamic form fields will be inserted here -->
+      <div id="unitTypeForm"></div>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button create">Create</button>
+      <button type="button" class="mdl-button close">Cancel</button>
+    </div>
+  </dialog>
+
+  <!-- Unit Type Quick Reference -->
+  <dialog class="mdl-dialog" id="unitTypeInfo">
+    <h4 class="mdl-dialog__title">Systemd Unit Types</h4>
+    <div class="mdl-dialog__content">
+      <ul class="mdl-list">
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span>Service Unit (.service)</span>
+            <span class="mdl-list__item-sub-title">Manages daemons and background processes</span>
+          </span>
+        </li>
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span>Socket Unit (.socket)</span>
+            <span class="mdl-list__item-sub-title">IPC or network socket activation</span>
+          </span>
+        </li>
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span>Target Unit (.target)</span>
+            <span class="mdl-list__item-sub-title">Groups units and provides sync points</span>
+          </span>
+        </li>
+        <!-- More unit types... -->
+      </ul>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button close">Close</button>
+    </div>
+  </dialog>
 
   <script src="script.js"></script>
 </body>
