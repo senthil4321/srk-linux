@@ -2,32 +2,37 @@
 
 The examples are grouped by unit type for readability. Load any of these in the SPA via the Load button.
 
-- services/
+- 01_services/
   - hello.service
   - advanced.service
   - forking.service
   - oneshot.service
   - notify.service
-- sockets/
+- 02_sockets/
   - echo.socket, echo.service
   - tcpecho.socket, `tcpecho@.service`
-- timers/
+- 03_timers/
   - backup.service, backup.timer
   - cron-daily.service, cron-daily.timer
-- paths/
+- 04_paths/
   - touch.path, touch.service
   - path-changed.path, reloader.service
-- mounts/
+- 05_mounts/
   - mnt-example.mount
-- swap/
+  - data.automount
+- 06_swap/
   - swap-example.swap
-- targets/
+- 07_targets/
   - custom.target
-- slices/
+- 08_slices/
   - resource.slice
-- networkd/
+- 09_networkd/
   - br0.netdev, br0.network
   - vlan10.netdev, vlan10.network
   - eth0.network
-- overrides/
+- 10_overrides/
   - hello.service.d/override.conf
+- 11_devices/
+  - sda.device
+- 12_scopes/
+  - backup.scope
