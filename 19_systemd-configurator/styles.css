@@ -1,22 +1,9 @@
-/* Split layout for viewer and help */
-.split-layout {
-  display: flex;
-  flex-direction: row;
-  height: calc(100vh - 64px);
-}
-.split-left {
-  flex: 1 1 60%;
-  padding: 24px 12px 24px 24px;
-  min-width: 0;
-}
-.split-right {
-  flex: 1 1 40%;
-  padding: 24px 24px 24px 12px;
-  min-width: 320px;
-  background: #f5f5f5;
-  border-left: 1px solid #e0e0e0;
-  overflow-y: auto;
-}
+/* Split layout (now stacked vertically: viewer -> config panels -> help) */
+.split-layout { display: flex; flex-direction: column; }
+.split-top { display: flex; flex-direction: row; align-items: stretch; gap: 16px; }
+.split-left { flex: 1 1 50%; padding: 16px 16px 0 24px; min-width: 0; }
+.split-right { flex: 1 1 50%; padding: 16px 24px 0 0; min-width: 0; }
+.split-right { overflow: auto; max-height: calc(100vh - 220px); }
 
 /* Highlight applicable directive fields */
 .directive-field {
@@ -39,13 +26,9 @@
   padding-left: 8px;
 }
 
-/* Hide service-only panel by default; shown when service tab active */
-.panel[data-panel="service"] {
-  display: none;
-}
-.panel.active[data-panel="service"] {
-  display: block;
-}
+/* Panels: hidden by default; only the active one is visible */
+.panel { display: none; }
+.panel.active { display: block; }
 #unitHelpPanel .unit-info {
   margin-top: 0;
 }
@@ -66,3 +49,10 @@ body { background: #fafafa; }
   white-space: pre-wrap;
 }
 .controls .mdl-textfield { width: 100%; }
+
+/* Bottom help panel */
+.bottom-panel { padding: 16px 24px 32px 24px; border-top: 1px solid #e0e0e0; background: #f7f7f7; }
+.bottom-panel .unit-info {
+  max-width: 1200px;
+  margin: 0 auto;
+}

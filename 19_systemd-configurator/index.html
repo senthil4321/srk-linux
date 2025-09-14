@@ -40,8 +40,9 @@
 
     <main class="mdl-layout__content">
       <div class="split-layout">
-        <div class="split-left">
-          <div class="file-viewer mdl-shadow--2dp">
+        <div class="split-top">
+          <div class="split-left">
+            <div class="file-viewer mdl-shadow--2dp">
             <div class="mdl-grid">
               <div class="mdl-cell mdl-cell--12-col">
                 <div class="current-file">
@@ -51,38 +52,325 @@
                 <pre id="fileContent" class="content-viewer"></pre>
               </div>
             </div>
+            </div>
           </div>
-        </div>
-        <div class="split-right">
-          <div id="unitHelpPanel">
-            <div class="unit-info mdl-card mdl-shadow--2dp">
-              <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text" id="unitHelpTitle">Systemd Unit Help</h2>
+          <div class="split-right">
+            <!-- Panels for each unit type (required for tab switching logic) -->
+            <div class="panel" data-panel="service">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Service Configuration</h4>
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <label for="serviceTypeSelect" class="mdl-textfield__label">Type</label>
+                    <select id="serviceTypeSelect" class="mdl-textfield__input">
+                      <option value="simple">simple (default)</option>
+                      <option value="forking">forking</option>
+                      <option value="oneshot">oneshot</option>
+                      <option value="dbus">dbus</option>
+                      <option value="notify">notify</option>
+                      <option value="idle">idle</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="ExecStart">
+                    <label for="execStartInput">ExecStart</label>
+                    <input id="execStartInput" type="text" class="mdl-textfield__input" placeholder="/usr/bin/my-service ..." />
+                  </div>
+
+                  <div class="directive-field" data-directive="ExecReload">
+                    <label for="execReloadInput">ExecReload</label>
+                    <input id="execReloadInput" type="text" class="mdl-textfield__input" placeholder="/bin/kill -HUP $MAINPID" />
+                  </div>
+
+                  <div class="directive-field" data-directive="ExecStop">
+                    <label for="execStopInput">ExecStop</label>
+                    <input id="execStopInput" type="text" class="mdl-textfield__input" placeholder="/bin/kill -TERM $MAINPID" />
+                  </div>
+
+                  <div class="directive-field" data-directive="PIDFile">
+                    <label for="pidFileInput">PIDFile</label>
+                    <input id="pidFileInput" type="text" class="mdl-textfield__input" placeholder="/run/my-service.pid" />
+                  </div>
+
+                  <div class="directive-field" data-directive="RemainAfterExit">
+                    <label for="remainAfterExitInput">RemainAfterExit</label>
+                    <select id="remainAfterExitInput" class="mdl-textfield__input">
+                      <option value="no">no</option>
+                      <option value="yes">yes</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="BusName">
+                    <label for="busNameInput">BusName (dbus)</label>
+                    <input id="busNameInput" type="text" class="mdl-textfield__input" placeholder="org.example.Service" />
+                  </div>
+
+                  <div class="directive-field" data-directive="NotifyAccess">
+                    <label for="notifyAccessInput">NotifyAccess (notify)</label>
+                    <select id="notifyAccessInput" class="mdl-textfield__input">
+                      <option value="none">none</option>
+                      <option value="main">main</option>
+                      <option value="all">all</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="Restart">
+                    <label for="restartInput">Restart</label>
+                    <select id="restartInput" class="mdl-textfield__input">
+                      <option value="no">no</option>
+                      <option value="on-success">on-success</option>
+                      <option value="on-failure">on-failure</option>
+                      <option value="always">always</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="RestartSec">
+                    <label for="restartSecInput">RestartSec</label>
+                    <input id="restartSecInput" type="text" class="mdl-textfield__input" placeholder="5s" />
+                  </div>
+
+                  <div class="directive-field" data-directive="TimeoutStartSec">
+                    <label for="timeoutStartSecInput">TimeoutStartSec</label>
+                    <input id="timeoutStartSecInput" type="text" class="mdl-textfield__input" placeholder="30s" />
+                  </div>
+
+                  <div class="directive-field" data-directive="TimeoutStopSec">
+                    <label for="timeoutStopSecInput">TimeoutStopSec</label>
+                    <input id="timeoutStopSecInput" type="text" class="mdl-textfield__input" placeholder="10s" />
+                  </div>
+
+                  <div class="directive-field" data-directive="User">
+                    <label for="userInput">User</label>
+                    <input id="userInput" type="text" class="mdl-textfield__input" placeholder="www-data" />
+                  </div>
+
+                  <div class="directive-field" data-directive="Group">
+                    <label for="groupInput">Group</label>
+                    <input id="groupInput" type="text" class="mdl-textfield__input" placeholder="www-data" />
+                  </div>
+
+                  <div class="directive-field" data-directive="WorkingDirectory">
+                    <label for="workingDirectoryInput">WorkingDirectory</label>
+                    <input id="workingDirectoryInput" type="text" class="mdl-textfield__input" placeholder="/var/run" />
+                  </div>
+
+                  <div class="directive-field" data-directive="Environment">
+                    <label for="environmentInput">Environment</label>
+                    <input id="environmentInput" type="text" class="mdl-textfield__input" placeholder="ENV=prod LOG_LEVEL=info" />
+                  </div>
+
+                  <div class="directive-field" data-directive="EnvironmentFile">
+                    <label for="environmentFileInput">EnvironmentFile</label>
+                    <input id="environmentFileInput" type="text" class="mdl-textfield__input" placeholder="-/etc/default/advanced" />
+                  </div>
+
+                  <div class="directive-field" data-directive="LimitNOFILE">
+                    <label for="limitNOFILEInput">LimitNOFILE</label>
+                    <input id="limitNOFILEInput" type="number" class="mdl-textfield__input" placeholder="65536" />
+                  </div>
+
+                  <div class="directive-field" data-directive="CapabilityBoundingSet">
+                    <label for="capabilityBoundingSetInput">CapabilityBoundingSet</label>
+                    <input id="capabilityBoundingSetInput" type="text" class="mdl-textfield__input" placeholder="CAP_NET_BIND_SERVICE CAP_SYS_TIME" />
+                  </div>
+
+                  <div class="directive-field" data-directive="NoNewPrivileges">
+                    <label for="noNewPrivilegesInput">NoNewPrivileges</label>
+                    <select id="noNewPrivilegesInput" class="mdl-textfield__input">
+                      <option value="no">no</option>
+                      <option value="yes">yes</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="ProtectSystem">
+                    <label for="protectSystemInput">ProtectSystem</label>
+                    <select id="protectSystemInput" class="mdl-textfield__input">
+                      <option value="no">no</option>
+                      <option value="full">full</option>
+                      <option value="strict">strict</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="ProtectHome">
+                    <label for="protectHomeInput">ProtectHome</label>
+                    <select id="protectHomeInput" class="mdl-textfield__input">
+                      <option value="no">no</option>
+                      <option value="yes">yes</option>
+                      <option value="read-only">read-only</option>
+                    </select>
+                  </div>
+
+                  <div class="directive-field" data-directive="ReadWritePaths">
+                    <label for="readWritePathsInput">ReadWritePaths</label>
+                    <input id="readWritePathsInput" type="text" class="mdl-textfield__input" placeholder="/var/run" />
+                  </div>
+                </div>
               </div>
-              <div class="mdl-card__supporting-text" id="unitHelpText">
-                <p>Select a unit type tab to view help and documentation.</p>
+            </div>
+            <div class="panel" data-panel="socket">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Socket Configuration</h4>
+                  <div class="directive-field" data-directive="ListenStream">
+                    <label for="listenStreamInput">ListenStream</label>
+                    <input id="listenStreamInput" type="text" class="mdl-textfield__input" placeholder="8080 or /run/app.sock" />
+                    <small>TCP port or Unix socket path</small>
+                  </div>
+                  <div class="directive-field" data-directive="Accept">
+                    <label for="acceptInput">Accept</label>
+                    <select id="acceptInput" class="mdl-textfield__input">
+                      <option value="no">no</option>
+                      <option value="yes">yes</option>
+                    </select>
+                    <small>Spawn service per connection when yes</small>
+                  </div>
+                  <div class="directive-field" data-directive="Service">
+                    <label for="socketServiceInput">Service</label>
+                    <input id="socketServiceInput" type="text" class="mdl-textfield__input" placeholder="my-app.service" />
+                    <small>Associated service to activate</small>
+                  </div>
+                  <div class="directive-field" data-directive="SocketUser">
+                    <label for="socketUserInput">SocketUser</label>
+                    <input id="socketUserInput" type="text" class="mdl-textfield__input" placeholder="www-data" />
+                  </div>
+                  <div class="directive-field" data-directive="SocketGroup">
+                    <label for="socketGroupInput">SocketGroup</label>
+                    <input id="socketGroupInput" type="text" class="mdl-textfield__input" placeholder="www-data" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="target">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Target Information</h4>
+                  <p>Targets group units and provide synchronization points. Configure relationships in [Unit] with Wants/Requires.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="device">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Device Information</h4>
+                  <p>Device units are typically generated by udev and rarely edited manually.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="mount">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Mount Configuration</h4>
+                  <div class="directive-field" data-directive="What">
+                    <label for="mountWhatInput">What</label>
+                    <input id="mountWhatInput" type="text" class="mdl-textfield__input" placeholder="/dev/sdb1 or server:/share" />
+                  </div>
+                  <div class="directive-field" data-directive="Where">
+                    <label for="mountWhereInput">Where</label>
+                    <input id="mountWhereInput" type="text" class="mdl-textfield__input" placeholder="/mnt/data" />
+                  </div>
+                  <div class="directive-field" data-directive="Type">
+                    <label for="mountTypeInput">Type</label>
+                    <input id="mountTypeInput" type="text" class="mdl-textfield__input" placeholder="ext4, nfs, vfat" />
+                  </div>
+                  <div class="directive-field" data-directive="Options">
+                    <label for="mountOptionsInput">Options</label>
+                    <input id="mountOptionsInput" type="text" class="mdl-textfield__input" placeholder="noatime,ro,_netdev" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="automount">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Automount Configuration</h4>
+                  <div class="directive-field" data-directive="Where">
+                    <label for="automountWhereInput">Where</label>
+                    <input id="automountWhereInput" type="text" class="mdl-textfield__input" placeholder="/mnt/data" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="timer">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Timer Configuration</h4>
+                  <div class="directive-field" data-directive="OnCalendar">
+                    <label for="onCalendarInput">OnCalendar</label>
+                    <input id="onCalendarInput" type="text" class="mdl-textfield__input" placeholder="daily, weekly, Mon..Fri 09:00" />
+                    <small>systemd.time(7) calendar event</small>
+                  </div>
+                  <div class="directive-field" data-directive="OnBootSec">
+                    <label for="onBootSecInput">OnBootSec</label>
+                    <input id="onBootSecInput" type="text" class="mdl-textfield__input" placeholder="5min" />
+                  </div>
+                  <div class="directive-field" data-directive="OnUnitActiveSec">
+                    <label for="onUnitActiveSecInput">OnUnitActiveSec</label>
+                    <input id="onUnitActiveSecInput" type="text" class="mdl-textfield__input" placeholder="1h" />
+                  </div>
+                  <div class="directive-field" data-directive="Unit">
+                    <label for="timerUnitInput">Unit</label>
+                    <input id="timerUnitInput" type="text" class="mdl-textfield__input" placeholder="my-job.service" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="swap">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Swap Configuration</h4>
+                  <div class="directive-field" data-directive="What">
+                    <label for="swapWhatInput">What</label>
+                    <input id="swapWhatInput" type="text" class="mdl-textfield__input" placeholder="/swapfile or /dev/disk/by-uuid/..." />
+                  </div>
+                  <div class="directive-field" data-directive="Priority">
+                    <label for="swapPriorityInput">Priority</label>
+                    <input id="swapPriorityInput" type="number" class="mdl-textfield__input" placeholder="-1..32767" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="path">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Path Configuration</h4>
+                  <div class="directive-field" data-directive="PathExists">
+                    <label for="pathExistsInput">PathExists</label>
+                    <input id="pathExistsInput" type="text" class="mdl-textfield__input" placeholder="/var/log/app" />
+                  </div>
+                  <div class="directive-field" data-directive="PathChanged">
+                    <label for="pathChangedInput">PathChanged</label>
+                    <input id="pathChangedInput" type="text" class="mdl-textfield__input" placeholder="/etc/app/config.yaml" />
+                  </div>
+                  <div class="directive-field" data-directive="Unit">
+                    <label for="pathUnitInput">Unit</label>
+                    <input id="pathUnitInput" type="text" class="mdl-textfield__input" placeholder="my-watcher.service" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="slice">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Slice Information</h4>
+                  <p>Slices group services for resource control via cgroups. Configure with CPU/Memory accounting options.</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="scope">
+              <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                  <h4>Scope Information</h4>
+                  <p>Scopes manage externally created processes. They are not started/stopped by systemd.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-      <!-- Panels for each unit type (required for tab switching logic) -->
-      <div class="panel" data-panel="service">
+      </div>
         <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--12-col">
             <h4>Service Configuration</h4>
-            <div class="mdl-textfield mdl-js-textfield">
-              <label for="serviceTypeSelect" class="mdl-textfield__label">Type</label>
-              <select id="serviceTypeSelect" class="mdl-textfield__input">
-                <option value="simple">simple (default)</option>
-                <option value="forking">forking</option>
-                <option value="oneshot">oneshot</option>
-                <option value="dbus">dbus</option>
-                <option value="notify">notify</option>
-                <option value="idle">idle</option>
-              </select>
-            </div>
-
+                </div>
             <div class="directive-field" data-directive="ExecStart">
               <label for="execStartInput">ExecStart</label>
               <input id="execStartInput" type="text" class="mdl-textfield__input" placeholder="/usr/bin/my-service ..." />
@@ -375,6 +663,18 @@
           </div>
         </div>
       </div>
+      </div>
+      <div class="bottom-panel">
+        <div id="unitHelpPanel">
+          <div class="unit-info mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title">
+              <h2 class="mdl-card__title-text" id="unitHelpTitle">Systemd Unit Help</h2>
+            </div>
+            <div class="mdl-card__supporting-text" id="unitHelpText">
+              <p>Select a unit type tab to view help and documentation.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
 
