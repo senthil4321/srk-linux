@@ -1,4 +1,5 @@
 # SRK Linux Project
+
 This project demonstrates various capabilities in Linux using C programs.
 
 ## Programs
@@ -78,10 +79,24 @@ make clean
 
 ## How to compile the program?
 
-``` bash
+```bash
 sudo apt-get install libcap-dev
 ```
 
 ```bash
 gcc srk-capabilities.c -lcap -o srk-capabilities
 ```
+
+## Numbered Folder Convention
+
+All major features and demos are organized in folders named with a running number prefix, e.g. `05_srk-epoll/`, `13_srk-rsa-sign-verify/`, etc. This ensures clear versioning and easy tracking of additions. New folders should use the next available number in sequence.
+
+## Copyright and Usage
+
+All shell scripts and code in this repository are:
+
+- Copyright (c) 2025 Senthil Kumar
+- Author: Senthil Kumar
+- Permission required for commercial use. Please acknowledge the author.
+- Free for personal and educational use.
+- Contact: senthil4321 (GitHub)
