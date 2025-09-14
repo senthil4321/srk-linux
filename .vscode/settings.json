@@ -6,5 +6,9 @@
     "files.exclude": {
         ".gitignore": true,
         ".gitattributes": true
-    }
+    },
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/sources/poky/bitbake/lib",
+        "${workspaceFolder}\\sources\\poky\\meta\\lib"
+    ]
 }
