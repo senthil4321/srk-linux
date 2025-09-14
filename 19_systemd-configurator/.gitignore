@@ -1,0 +1,11 @@
+# Node / npm artifacts
+node_modules/
+coverage/
+.npm/
+.npmrc
+package-lock.json
+npm-debug.log*
+.yarn*
+.pnpm-store/
+.cache/
+.DS_Store
