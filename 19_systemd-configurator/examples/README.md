@@ -2,40 +2,40 @@
 
 The examples are grouped by unit type for readability. Load any of these in the SPA via the Load button.
 
-- service/
+- 01_service/
   - hello.service
   - advanced.service
   - forking.service
   - oneshot.service
   - notify.service
-- socket/
+- 02_socket/
   - echo.socket, echo.service
   - tcpecho.socket, `tcpecho@.service`
-- target/
+- 03_target/
   - custom.target
-- device/
+- 04_device/
   - sda.device
-- mount/
+- 05_mount/
   - mnt-example.mount
-- automount/
+- 06_automount/
   - data.automount
-- timer/
+- 07_timer/
   - backup.service, backup.timer
   - cron-daily.service, cron-daily.timer
-- swap/
+- 08_swap/
   - swap-example.swap
-- path/
+- 09_path/
   - touch.path, touch.service
   - path-changed.path, reloader.service
-- slice/
+- 10_slice/
   - resource.slice
-- scope/
+- 11_scope/
   - backup.scope
-- networkd/
+- 12_networkd/
   - br0.netdev, br0.network
   - vlan10.netdev, vlan10.network
   - eth0.network
-- overrides/
+- 13_overrides/
   - hello.service.d/override.conf
 
 ---
@@ -44,17 +44,17 @@ The examples are grouped by unit type for readability. Load any of these in the 
 
 | Unit Type   | Extension   | Example(s) in repo                |
 |------------|-------------|-----------------------------------|
-| Service    | .service    | hello.service, advanced.service, forking.service, oneshot.service, notify.service |
-| Socket     | .socket     | echo.socket, tcpecho.socket        |
-| Target     | .target     | custom.target                      |
-| Device     | .device     | sda.device                         |
-| Mount      | .mount      | mnt-example.mount                  |
-| Automount  | .automount  | data.automount                     |
-| Timer      | .timer      | backup.timer, cron-daily.timer     |
-| Swap       | .swap       | swap-example.swap                  |
-| Path       | .path       | touch.path, path-changed.path      |
-| Slice      | .slice      | resource.slice                     |
-| Scope      | .scope      | backup.scope                       |
+| Service    | .service    | 01_service/hello.service, advanced.service, forking.service, oneshot.service, notify.service |
+| Socket     | .socket     | 02_socket/echo.socket, tcpecho.socket        |
+| Target     | .target     | 03_target/custom.target                      |
+| Device     | .device     | 04_device/sda.device                         |
+| Mount      | .mount      | 05_mount/mnt-example.mount                  |
+| Automount  | .automount  | 06_automount/data.automount                 |
+| Timer      | .timer      | 07_timer/backup.timer, cron-daily.timer     |
+| Swap       | .swap       | 08_swap/swap-example.swap                  |
+| Path       | .path       | 09_path/touch.path, path-changed.path      |
+| Slice      | .slice      | 10_slice/resource.slice                     |
+| Scope      | .scope      | 11_scope/backup.scope                       |
 
 ---
 
