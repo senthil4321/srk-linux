@@ -20,6 +20,14 @@ describe('Unit Type Detection', () => {
         // TODO: Implement after extracting core functions
         expect(detectUnitType('my-app.unknown')).toBe('unknown');
     });
+
+    test('should detect timer unit type', () => {
+        expect(detectUnitType('cleanup.timer')).toBe('timer');
+    });
+
+    test('should detect path unit type', () => {
+        expect(detectUnitType('watch.path')).toBe('path');
+    });
 });
 
 describe('Directive Validation', () => {

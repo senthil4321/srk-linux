@@ -17,6 +17,35 @@
   border-left: 1px solid #e0e0e0;
   overflow-y: auto;
 }
+
+/* Highlight applicable directive fields */
+.directive-field {
+  margin: 8px 0 16px;
+}
+.directive-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.directive-field input, .directive-field select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.directive-field.applicable {
+  border-left: 4px solid #3f51b5; /* Indigo */
+  background: rgba(63,81,181,0.06);
+  padding-left: 8px;
+}
+
+/* Hide service-only panel by default; shown when service tab active */
+.panel[data-panel="service"] {
+  display: none;
+}
+.panel.active[data-panel="service"] {
+  display: block;
+}
 #unitHelpPanel .unit-info {
   margin-top: 0;
 }

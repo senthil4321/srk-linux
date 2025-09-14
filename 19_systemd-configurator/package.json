@@ -1,6 +1,6 @@
 {
   "name": "systemd-configurator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Systemd Unit File Configurator",
   "scripts": {
     "test": "jest --coverage",

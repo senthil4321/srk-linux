@@ -11,7 +11,7 @@ describe('Tab Navigation', () => {
             <a href="#socket-tab" class="mdl-layout__tab" id="tab-socket">Socket</a>
           </div>
           <div class="panel" data-panel="service"></div>
-          <div class="panel" data-panel="socket"></div>
+                    <div class="panel" data-panel="socket"></div>
           <div id="unitHelpTitle"></div>
           <div id="unitHelpText"></div>
         </div>`;
@@ -33,6 +33,10 @@ describe('Tab Navigation', () => {
         const activePanel = document.querySelector('.panel.active');
         expect(activePanel).not.toBeNull();
         expect(activePanel.getAttribute('data-panel')).toBe('socket');
+    });
+
+    test('non-service panels exist', () => {
+        expect(document.querySelector('[data-panel="socket"]').tagName).toBeDefined();
     });
 });
 

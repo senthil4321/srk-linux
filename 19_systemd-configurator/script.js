@@ -107,6 +107,66 @@
     `;
   }
 
+  // Map service Type to applicable directives
+  const serviceTypeApplicability = {
+    simple: ['ExecStart', 'Restart'],
+    forking: ['ExecStart', 'PIDFile', 'Restart'],
+    oneshot: ['ExecStart', 'RemainAfterExit', 'Restart'],
+    dbus: ['ExecStart', 'BusName', 'Restart'],
+    notify: ['ExecStart', 'NotifyAccess', 'Restart'],
+    idle: ['ExecStart', 'Restart']
+  };
+
+  function highlightServiceApplicables(type) {
+    const applicable = serviceTypeApplicability[type] || [];
+    document.querySelectorAll('[data-directive]').forEach(el => {
+      el.classList.remove('applicable');
+      const name = el.getAttribute('data-directive');
+      if (applicable.includes(name)) {
+        el.classList.add('applicable');
+      }
+    });
+  }
+
+  // Populate service form fields from parsed unit content
+  function populateServiceFieldsFromText(text) {
+    const map = {
+      ExecStart: 'execStartInput',
+      ExecReload: 'execReloadInput',
+      ExecStop: 'execStopInput',
+      PIDFile: 'pidFileInput',
+      RemainAfterExit: 'remainAfterExitInput',
+      BusName: 'busNameInput',
+      NotifyAccess: 'notifyAccessInput',
+      Restart: 'restartInput',
+      RestartSec: 'restartSecInput',
+      TimeoutStartSec: 'timeoutStartSecInput',
+      TimeoutStopSec: 'timeoutStopSecInput',
+      User: 'userInput',
+      Group: 'groupInput',
+      WorkingDirectory: 'workingDirectoryInput',
+      Environment: 'environmentInput',
+      EnvironmentFile: 'environmentFileInput',
+      LimitNOFILE: 'limitNOFILEInput',
+      CapabilityBoundingSet: 'capabilityBoundingSetInput',
+      NoNewPrivileges: 'noNewPrivilegesInput',
+      ProtectSystem: 'protectSystemInput',
+      ProtectHome: 'protectHomeInput',
+      ReadWritePaths: 'readWritePathsInput'
+    };
+    const lines = String(text || '').split(/\r?\n/);
+    lines.forEach(line => {
+      const m = line.match(/^\s*([A-Za-z][A-Za-z0-9]+)\s*=\s*(.*)\s*$/);
+      if (!m) return;
+      const key = m[1];
+      const val = m[2];
+      const id = map[key];
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    });
+  }
+
   // Handle file selection
   function handleFileSelect(event) {
     const file = event.target.files[0];
@@ -144,6 +204,25 @@
           const panel = document.querySelector(`.panel[data-panel="${unitType}"]`);
           if (panel && panel.classList) {
             panel.classList.add('active');
+          }
+
+          // If service, try to parse Type= from file content and highlight
+          if (unitType === 'service') {
+            const text = String(e.target.result || '');
+            const m = text.match(/^Type\s*=\s*([A-Za-z]+)\s*$/mi);
+            const parsed = m ? m[1].toLowerCase() : null;
+            const select = document.getElementById('serviceTypeSelect');
+            if (select) {
+              if (parsed && Array.from(select.options).some(o => o.value === parsed)) {
+                select.value = parsed;
+              }
+              highlightServiceApplicables(select.value);
+            }
+            populateServiceFieldsFromText(text);
+            // Ensure service panel visible and other panels hidden
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            const svcPanel = document.querySelector('.panel[data-panel="service"]');
+            if (svcPanel) svcPanel.classList.add('active');
           }
           
           // Update the Material Design Lite component if available
@@ -183,6 +262,12 @@
   // Initialize Material Design Lite components
   if (typeof window !== 'undefined' && window.componentHandler) {
     window.componentHandler.upgradeAllRegistered();
+  }
+
+  // Listen service Type change
+  const serviceTypeSelect = (typeof document !== 'undefined') ? document.getElementById('serviceTypeSelect') : null;
+  if (serviceTypeSelect) {
+    serviceTypeSelect.addEventListener('change', () => highlightServiceApplicables(serviceTypeSelect.value));
   }
 
 
