@@ -2,39 +2,60 @@
 
 The examples are grouped by unit type for readability. Load any of these in the SPA via the Load button.
 
-- 01_services/        (.service)
+- service/
   - hello.service
   - advanced.service
   - forking.service
   - oneshot.service
   - notify.service
-- 02_sockets/         (.socket)
+- socket/
   - echo.socket, echo.service
   - tcpecho.socket, `tcpecho@.service`
-- 07_targets/         (.target)
+- target/
   - custom.target
-- 11_devices/         (.device)
+- device/
   - sda.device
-- 05_mounts/          (.mount)
+- mount/
   - mnt-example.mount
+- automount/
   - data.automount
-- 05_mounts/          (.automount)
-  - data.automount
-- 03_timers/          (.timer)
+- timer/
   - backup.service, backup.timer
   - cron-daily.service, cron-daily.timer
-- 06_swap/            (.swap)
+- swap/
   - swap-example.swap
-- 04_paths/           (.path)
+- path/
   - touch.path, touch.service
   - path-changed.path, reloader.service
-- 08_slices/          (.slice)
+- slice/
   - resource.slice
-- 12_scopes/          (.scope)
+- scope/
   - backup.scope
-- 09_networkd/
+- networkd/
   - br0.netdev, br0.network
   - vlan10.netdev, vlan10.network
   - eth0.network
-- 10_overrides/
+- overrides/
   - hello.service.d/override.conf
+
+---
+
+## Systemd Unit Types and Example Files
+
+| Unit Type   | Extension   | Example(s) in repo                |
+|------------|-------------|-----------------------------------|
+| Service    | .service    | hello.service, advanced.service, forking.service, oneshot.service, notify.service |
+| Socket     | .socket     | echo.socket, tcpecho.socket        |
+| Target     | .target     | custom.target                      |
+| Device     | .device     | sda.device                         |
+| Mount      | .mount      | mnt-example.mount                  |
+| Automount  | .automount  | data.automount                     |
+| Timer      | .timer      | backup.timer, cron-daily.timer     |
+| Swap       | .swap       | swap-example.swap                  |
+| Path       | .path       | touch.path, path-changed.path      |
+| Slice      | .slice      | resource.slice                     |
+| Scope      | .scope      | backup.scope                       |
+
+---
+
+See `man systemd.unit` for more details on each unit type.
