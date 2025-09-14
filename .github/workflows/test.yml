@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '19_systemd-configurator/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '19_systemd-configurator/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: 19_systemd-configurator
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: '19_systemd-configurator/package.json'
+    
+    - name: Install dependencies
+      run: npm ci || npm install
+    
+    - name: Run tests
+      run: npm test
+      
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: coverage-report-node-${{ matrix.node-version }}
+        path: 19_systemd-configurator/coverage
+        retention-days: 7

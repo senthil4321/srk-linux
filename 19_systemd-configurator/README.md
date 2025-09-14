@@ -1,5 +1,7 @@
 # 19_systemd-configurator
 
+[![Tests](https://github.com/senthil4321/srk-linux/actions/workflows/test.yml/badge.svg)](https://github.com/senthil4321/srk-linux/actions/workflows/test.yml)
+
 This folder contains a single-page web application for editing and viewing systemd configuration files.
 
 ## Features
