@@ -30,7 +30,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: '19_systemd-configurator/package.json'
+        cache-dependency-path: '19_systemd-configurator/tests/package.json'
     
     - name: Install dependencies
       run: npm ci || npm install
