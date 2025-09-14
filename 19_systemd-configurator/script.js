@@ -2,13 +2,13 @@
 (function () {
   'use strict';
 
-  const fileInput = document.getElementById('fileInput');
-  const fileContent = document.getElementById('fileContent');
-  const currentFileName = document.getElementById('currentFileName');
-  const currentFileType = document.getElementById('currentFileType');
-  const unitInfoDialog = document.getElementById('unitInfoDialog');
-  const unitTypeDescription = document.getElementById('unitTypeDescription');
-  const unitManPage = document.getElementById('unitManPage');
+  const fileInput = (typeof document !== 'undefined') ? document.getElementById('fileInput') : null;
+  const fileContent = (typeof document !== 'undefined') ? document.getElementById('fileContent') : null;
+  const currentFileName = (typeof document !== 'undefined') ? document.getElementById('currentFileName') : null;
+  const currentFileType = (typeof document !== 'undefined') ? document.getElementById('currentFileType') : null;
+  const unitInfoDialog = (typeof document !== 'undefined') ? document.getElementById('unitInfoDialog') : null;
+  const unitTypeDescription = (typeof document !== 'undefined') ? document.getElementById('unitTypeDescription') : null;
+  const unitManPage = (typeof document !== 'undefined') ? document.getElementById('unitManPage') : null;
 
   // Unit type descriptions and documentation
   const unitTypes = {
@@ -114,12 +114,12 @@
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      fileContent.textContent = e.target.result;
-      currentFileName.textContent = file.name;
+      if (fileContent) fileContent.textContent = e.target.result;
+      if (currentFileName) currentFileName.textContent = file.name;
       
       const unitType = detectUnitType(file.name);
       if (unitType) {
-        currentFileType.textContent = unitTypes[unitType].name;
+        if (currentFileType) currentFileType.textContent = unitTypes[unitType].name;
         showUnitTypeInfo(unitType);
         
         // Find and click the corresponding tab
@@ -147,7 +147,7 @@
           }
           
           // Update the Material Design Lite component if available
-          if (window.componentHandler && tabElement.parentElement) {
+          if (typeof window !== 'undefined' && window.componentHandler && tabElement.parentElement) {
             componentHandler.upgradeElement(tabElement.parentElement);
           }
         }
@@ -157,40 +157,31 @@
   }
 
   // Event Listeners
-  fileInput.addEventListener('change', handleFileSelect);
+  if (fileInput && fileInput.addEventListener) {
+    fileInput.addEventListener('change', handleFileSelect);
+  }
 
   // Tab click listeners to update help panel
   document.querySelectorAll('.mdl-layout__tab').forEach(tab => {
-    tab.addEventListener('click', function (e) {
+    tab.addEventListener('click', function () {
       const href = tab.getAttribute('href');
+      let type = null;
       if (href && href.endsWith('-tab')) {
-        const type = href.replace('#', '').replace('-tab', '');
+        type = href.replace('#', '').replace('-tab', '');
         showUnitTypeInfo(type);
       }
-      // Defensive: handle tab activation
-      const activeTab = document.querySelector('.active-tab');
-      if (activeTab && activeTab.classList) {
-        activeTab.classList.remove('active-tab');
-      }
-      if (tab && tab.classList) {
-        tab.classList.add('active-tab');
-      }
+      // Defensive: handle tab activation (MDL uses is-active)
+      document.querySelectorAll('.mdl-layout__tab').forEach(t => t.classList && t.classList.remove('is-active'));
+      if (tab && tab.classList) tab.classList.add('is-active');
       // Defensive: handle panel activation
-      const panels = document.querySelectorAll('.panel');
-      panels.forEach(panel => {
-        if (panel && panel.classList) {
-          panel.classList.remove('active');
-        }
-      });
-      const typePanel = tab ? document.querySelector(`.panel[data-panel="${tab.dataset.tab}"]`) : null;
-      if (typePanel && typePanel.classList) {
-        typePanel.classList.add('active');
-      }
+      document.querySelectorAll('.panel').forEach(panel => panel.classList && panel.classList.remove('active'));
+      const typePanel = type ? document.querySelector(`.panel[data-panel="${type}"]`) : null;
+      if (typePanel && typePanel.classList) typePanel.classList.add('active');
     });
   });
 
   // Initialize Material Design Lite components
-  if (window.componentHandler) {
+  if (typeof window !== 'undefined' && window.componentHandler) {
     window.componentHandler.upgradeAllRegistered();
   }
 

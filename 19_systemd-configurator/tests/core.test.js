@@ -23,18 +23,15 @@ describe('Unit Type Detection', () => {
 });
 
 describe('Directive Validation', () => {
-    test('should validate ExecStart directive', () => {
-        // TODO: Implement after extracting core functions
+    test('valid ExecStart path is accepted', () => {
         expect(validateDirective('ExecStart', '/usr/bin/app')).toBe(true);
     });
 
-    test('should validate socket Listen directive', () => {
-        // TODO: Implement after extracting core functions
+    test('numeric ListenStream is accepted', () => {
         expect(validateDirective('ListenStream', '80')).toBe(true);
     });
 
-    test('should reject invalid directive values', () => {
-        // TODO: Implement after extracting core functions
+    test('invalid Restart value is rejected', () => {
         expect(validateDirective('Restart', 'invalid')).toBe(false);
     });
 });

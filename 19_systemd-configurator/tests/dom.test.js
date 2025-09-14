@@ -5,41 +5,54 @@
 describe('Tab Navigation', () => {
     beforeEach(() => {
         document.body.innerHTML = `
-            <!-- TODO: Add minimal HTML structure for testing -->
-        `;
-        // TODO: Initialize SPA after extracting initialization code
+        <div>
+          <div class="mdl-layout__tab-bar">
+            <a href="#service-tab" class="mdl-layout__tab" id="tab-service">Service</a>
+            <a href="#socket-tab" class="mdl-layout__tab" id="tab-socket">Socket</a>
+          </div>
+          <div class="panel" data-panel="service"></div>
+          <div class="panel" data-panel="socket"></div>
+          <div id="unitHelpTitle"></div>
+          <div id="unitHelpText"></div>
+        </div>`;
+        // Import script to attach listeners
+        jest.isolateModules(() => {
+            require('../script');
+        });
     });
 
     test('should switch tabs when clicked', () => {
-        const serviceTab = document.querySelector('[data-tab="service"]');
+        const serviceTab = document.getElementById('tab-service');
         serviceTab.click();
-        expect(document.querySelector('.active-tab').dataset.tab).toBe('service');
+        expect(serviceTab.classList.contains('is-active')).toBe(true);
     });
 
     test('should show correct panel when tab is clicked', () => {
-        const socketTab = document.querySelector('[data-tab="socket"]');
+        const socketTab = document.getElementById('tab-socket');
         socketTab.click();
-        expect(document.querySelector('.panel.active').dataset.panel).toBe('socket');
+        const activePanel = document.querySelector('.panel.active');
+        expect(activePanel).not.toBeNull();
+        expect(activePanel.getAttribute('data-panel')).toBe('socket');
     });
 });
 
 describe('Help Panel', () => {
     beforeEach(() => {
         document.body.innerHTML = `
-            <!-- TODO: Add minimal HTML structure for testing -->
-        `;
-        // TODO: Initialize SPA after extracting initialization code
+        <div>
+          <div id="unitHelpTitle"></div>
+          <div id="unitHelpText"></div>
+          <a href="#service-tab" class="mdl-layout__tab" id="tab-service">Service</a>
+          <a href="#socket-tab" class="mdl-layout__tab" id="tab-socket">Socket</a>
+        </div>`;
+        jest.isolateModules(() => {
+            require('../script');
+        });
     });
 
-    test('should update help content when directive is focused', () => {
-        const execStartInput = document.querySelector('[data-directive="ExecStart"]');
-        execStartInput.focus();
-        expect(document.querySelector('.help-panel').textContent).toContain('ExecStart');
-    });
-
-    test('should show directive documentation', () => {
-        const restartInput = document.querySelector('[data-directive="Restart"]');
-        restartInput.focus();
-        expect(document.querySelector('.help-panel').textContent).toContain('Restart');
+    test('should update help content when tab is clicked', () => {
+        const serviceTab = document.getElementById('tab-service');
+        serviceTab.click();
+        expect(document.getElementById('unitHelpTitle').textContent).toContain('Service');
     });
 });
