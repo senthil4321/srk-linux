@@ -1,3 +1,6 @@
+
+const { detectUnitType, validateDirective } = require('../script');
+
 /**
  * Unit tests for core functionality
  */
