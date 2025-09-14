@@ -1,0 +1,17 @@
+body { background: #fafafa; }
+.page-content { padding: 16px; }
+.editor-textarea {
+  width: 100%;
+  min-height: 360px;
+  font-family: Consolas, "Courier New", monospace;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 4px;
+}
+.preview-box {
+  background: #fff;
+  border: 1px dashed #ccc;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+.controls .mdl-textfield { width: 100%; }

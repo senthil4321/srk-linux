@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Systemd Configurator</title>
+  <!-- Material Design Lite (no build step) -->
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="mdl-base">
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-color--indigo-500">
+      <div class="mdl-layout__header-row">
+        <span class="mdl-layout-title">Systemd Configurator</span>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+          <label class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" for="fileInput">Load</label>
+          <input id="fileInput" type="file" accept=".service,.socket,.target,.timer,.path,.mount,.slice,.swap,.link,.netdev,.network,.conf,.d" style="display:none" />
+          <button id="saveBtn" class="mdl-button mdl-js-button mdl-button--raised">Save</button>
+          <button id="downloadBtn" class="mdl-button mdl-js-button">Download</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <section class="controls">
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--4-col">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="filename" placeholder="Optional filename" />
+                <label class="mdl-textfield__label" for="filename">Filename (optional)</label>
+              </div>
+            </div>
+            <div class="mdl-cell mdl-cell--4-col">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select id="sectionSelect" class="mdl-textfield__input">
+                  <option value="">Select section…</option>
+                </select>
+                <label class="mdl-textfield__label" for="sectionSelect">Section</label>
+              </div>
+            </div>
+            <div class="mdl-cell mdl-cell--4-col">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select id="directiveSelect" class="mdl-textfield__input" disabled>
+                  <option value="">Select directive…</option>
+                </select>
+                <label class="mdl-textfield__label" for="directiveSelect">Directive</label>
+              </div>
+            </div>
+          </div>
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+              <button id="insertDirectiveBtn" class="mdl-button mdl-js-button mdl-button--colored" disabled>
+                Insert directive
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="editor">
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+              <textarea id="editor" class="mdl-textfield__input editor-textarea" placeholder="# Paste or load a systemd unit file here"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="preview">
+          <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+              <pre id="preview" class="preview-box"></pre>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
