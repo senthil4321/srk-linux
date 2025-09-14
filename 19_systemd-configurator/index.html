@@ -14,6 +14,7 @@
     <header class="mdl-layout__header mdl-color--indigo-500">
       <div class="mdl-layout__header-row">
         <span class="mdl-layout-title">Systemd Configurator</span>
+        <small class="version-info">v1.0.0 (2025-09-14)</small>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
           <button id="newUnitBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">New Unit</button>
@@ -39,34 +40,11 @@
       <div class="page-content">
         <section class="controls">
           <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--4-col">
+            <div class="mdl-cell mdl-cell--12-col">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="filename" placeholder="Optional filename" />
                 <label class="mdl-textfield__label" for="filename">Filename (optional)</label>
               </div>
-            </div>
-            <div class="mdl-cell mdl-cell--4-col">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <select id="sectionSelect" class="mdl-textfield__input">
-                  <option value="">Select section…</option>
-                </select>
-                <label class="mdl-textfield__label" for="sectionSelect">Section</label>
-              </div>
-            </div>
-            <div class="mdl-cell mdl-cell--4-col">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <select id="directiveSelect" class="mdl-textfield__input" disabled>
-                  <option value="">Select directive…</option>
-                </select>
-                <label class="mdl-textfield__label" for="directiveSelect">Directive</label>
-              </div>
-            </div>
-          </div>
-          <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-              <button id="insertDirectiveBtn" class="mdl-button mdl-js-button mdl-button--colored" disabled>
-                Insert directive
-              </button>
             </div>
           </div>
         </section>
@@ -93,25 +71,26 @@
   <!-- New Unit Wizard Dialog -->
   <dialog class="mdl-dialog" id="newUnitDialog">
     <h4 class="mdl-dialog__title">Create New Systemd Unit</h4>
-    <div class="mdl-dialog__content">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <select id="unitTypeSelect" class="mdl-textfield__input">
-          <option value="">Select unit type...</option>
-          <option value="service">.service - Service/Daemon Process</option>
-          <option value="socket">.socket - IPC/Network Socket</option>
-          <option value="target">.target - Group/Milestone</option>
-          <option value="device">.device - Device Unit</option>
-          <option value="mount">.mount - Filesystem Mount</option>
-          <option value="automount">.automount - Auto Mount</option>
-          <option value="timer">.timer - Scheduled Tasks</option>
-          <option value="swap">.swap - Swap Space</option>
-          <option value="path">.path - Path Monitor</option>
-          <option value="slice">.slice - Resource Control</option>
-          <option value="scope">.scope - External Process</option>
-        </select>
-      </div>
-      
-      <!-- Dynamic form fields will be inserted here -->
+      <div class="mdl-dialog__content">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <select id="unitTypeSelect" class="mdl-textfield__input">
+            <option value="">Select unit type...</option>
+            <option value="service" data-manpage="systemd.service">.service - Service/Daemon Process</option>
+            <option value="socket" data-manpage="systemd.socket">.socket - IPC/Network Socket</option>
+            <option value="target" data-manpage="systemd.target">.target - Group/Milestone</option>
+            <option value="device" data-manpage="systemd.device">.device - Device Unit</option>
+            <option value="mount" data-manpage="systemd.mount">.mount - Filesystem Mount</option>
+            <option value="automount" data-manpage="systemd.automount">.automount - Auto Mount</option>
+            <option value="timer" data-manpage="systemd.timer">.timer - Scheduled Tasks</option>
+            <option value="swap" data-manpage="systemd.swap">.swap - Swap Space</option>
+            <option value="path" data-manpage="systemd.path">.path - Path Monitor</option>
+            <option value="slice" data-manpage="systemd.slice">.slice - Resource Control</option>
+            <option value="scope" data-manpage="systemd.scope">.scope - External Process</option>
+          </select>
+        </div>
+        <div class="manpage-link" style="margin-top: 10px;">
+          <a id="manpageLink" href="#" target="_blank" style="display: none;">View Man Page</a>
+        </div>      <!-- Dynamic form fields will be inserted here -->
       <div id="unitTypeForm"></div>
     </div>
     <div class="mdl-dialog__actions">

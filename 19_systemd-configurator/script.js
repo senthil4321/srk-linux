@@ -1,16 +1,69 @@
-/* Systemd Configurator SPA - No server side components */
+/* Systemd Configurator SPA v1.0.0 (2025-09-14) */
 (function () {
   'use strict';
 
   const fileInput = document.getElementById('fileInput');
-  const saveBtn = document.getElementById('saveBtn');
   const downloadBtn = document.getElementById('downloadBtn');
   const editor = document.getElementById('editor');
   const preview = document.getElementById('preview');
   const filenameEl = document.getElementById('filename');
-  const sectionSelect = document.getElementById('sectionSelect');
-  const directiveSelect = document.getElementById('directiveSelect');
-  const insertDirectiveBtn = document.getElementById('insertDirectiveBtn');
+  const newUnitBtn = document.getElementById('newUnitBtn');
+  const newUnitDialog = document.getElementById('newUnitDialog');
+  const unitTypeSelect = document.getElementById('unitTypeSelect');
+  const unitTypeForm = document.getElementById('unitTypeForm');
+  const manpageLink = document.getElementById('manpageLink');
+  const newUnitBtn = document.getElementById('newUnitBtn');
+  const newUnitDialog = document.getElementById('newUnitDialog');
+  const unitTypeSelect = document.getElementById('unitTypeSelect');
+  const unitTypeForm = document.getElementById('unitTypeForm');
+
+  // Unit type templates and form fields
+  const unitTypes = {
+    service: {
+      name: 'Service',
+      extension: '.service',
+      description: 'Service/Daemon Process',
+      template: `[Unit]
+Description={description}
+After={after}
+Wants={wants}
+
+[Service]
+Type={type}
+ExecStart={execStart}
+{additionalDirectives}
+
+[Install]
+WantedBy={target}`,
+      fields: [
+        { name: 'description', label: 'Description', type: 'text', required: true },
+        { name: 'type', label: 'Service Type', type: 'select', options: ['simple', 'forking', 'oneshot', 'notify'], required: true },
+        { name: 'execStart', label: 'ExecStart Command', type: 'text', required: true },
+        { name: 'after', label: 'After Units', type: 'text', placeholder: 'network.target' },
+        { name: 'wants', label: 'Wants Units', type: 'text', placeholder: 'network.target' },
+        { name: 'target', label: 'Install Target', type: 'select', options: ['multi-user.target', 'graphical.target', 'network.target'] }
+      ]
+    },
+    socket: {
+      name: 'Socket',
+      extension: '.socket',
+      template: `[Unit]
+Description={description}
+
+[Socket]
+ListenStream={listenStream}
+Accept={accept}
+
+[Install]
+WantedBy={target}`,
+      fields: [
+        { name: 'description', label: 'Description', type: 'text', required: true },
+        { name: 'listenStream', label: 'Listen Stream', type: 'text', required: true },
+        { name: 'accept', label: 'Accept', type: 'select', options: ['yes', 'no'] },
+        { name: 'target', label: 'Install Target', type: 'select', options: ['sockets.target'] }
+      ]
+    }
+  };
 
   // Common systemd sections and directives (subset)
   const directives = {
