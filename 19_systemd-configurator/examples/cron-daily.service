@@ -1,0 +1,9 @@
+[Unit]
+Description=Run daily task
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/daily-task
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Activate swap on /swapfile
+
+[Swap]
+What=/swapfile
+Priority=100
+Options=discard
+
+[Install]
+WantedBy=multi-user.target

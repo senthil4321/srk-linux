@@ -1,0 +1,12 @@
+[Unit]
+Description=Mount /mnt/example
+
+[Mount]
+What=/dev/sdb1
+Where=/mnt/example
+Type=ext4
+Options=defaults,noatime
+TimeoutSec=30
+
+[Install]
+WantedBy=multi-user.target

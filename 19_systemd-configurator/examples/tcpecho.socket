@@ -1,0 +1,9 @@
+[Unit]
+Description=TCP Echo Socket on 0.0.0.0:5555
+
+[Socket]
+ListenStream=0.0.0.0:5555
+Accept=true
+
+[Install]
+WantedBy=sockets.target

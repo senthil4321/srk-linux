@@ -1,0 +1,7 @@
+[Unit]
+Description=Resource control slice
+
+[Slice]
+CPUQuota=50%
+MemoryMax=512M
+IOReadBandwidthMax=/dev/sda 50M

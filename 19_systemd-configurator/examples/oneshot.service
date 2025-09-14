@@ -1,0 +1,7 @@
+[Unit]
+Description=Oneshot service demo
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/touch /tmp/oneshot.done

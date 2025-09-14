@@ -1,0 +1,6 @@
+[Unit]
+Description=Reload something on change
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl reload some.service

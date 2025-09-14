@@ -1,0 +1,9 @@
+[Unit]
+Description=Trigger on file changes
+
+[Path]
+PathChanged=/etc/hosts
+Unit=reloader.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+[Unit]
+Description=Per-connection Echo (%i)
+
+[Service]
+ExecStart=/usr/bin/socat - TCP4:127.0.0.1:7
+StandardInput=socket

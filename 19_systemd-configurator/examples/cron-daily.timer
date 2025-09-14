@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily task timer
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+Unit=cron-daily.service
+
+[Install]
+WantedBy=timers.target

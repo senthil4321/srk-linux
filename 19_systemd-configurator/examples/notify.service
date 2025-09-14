@@ -1,0 +1,7 @@
+[Unit]
+Description=Notify type service demo
+
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/usr/lib/demo-notifier
