@@ -1,4 +1,4 @@
-/* Systemd Unit File Viewer v1.0.0 (2025-09-14) */
+/* Systemd Unit File Viewer v1.2.0 (2025-09-14) */
 (function () {
   'use strict';
 
