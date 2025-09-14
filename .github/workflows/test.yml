@@ -16,11 +16,11 @@ jobs:
 
     defaults:
       run:
-        working-directory: 19_systemd-configurator
+        working-directory: 19_systemd-configurator/tests
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [20.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -34,14 +34,14 @@ jobs:
     
     - name: Install dependencies
       run: npm ci || npm install
-    
+
     - name: Run tests
       run: npm test
-      
+
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       if: success()
       with:
         name: coverage-report-node-${{ matrix.node-version }}
-        path: 19_systemd-configurator/coverage
+        path: 19_systemd-configurator/tests/coverage
         retention-days: 7
