@@ -1,0 +1,27 @@
+[Unit]
+Description=Network-dependent Web Server
+Documentation=https://example.com/docs
+After=network-online.target
+Wants=network-online.target
+AssertPathExists=/etc/webserver/config
+
+[Service]
+Type=notify
+ExecStartPre=/usr/bin/webserver-check-config
+ExecStart=/usr/bin/webserver --config /etc/webserver/config
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=30s
+TimeoutStopSec=10s
+
+# Security hardening
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/webserver
+ProtectHome=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+
+[Install]
+WantedBy=multi-user.target

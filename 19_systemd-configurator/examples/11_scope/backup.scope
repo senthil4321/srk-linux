@@ -1,2 +1,10 @@
 [Unit]
 Description=Scope for external backup process
+Documentation=man:systemd.scope(5)
+
+[Scope]
+TimeoutStopSec=20
+Nice=10
+IOWeight=100
+CPUQuota=30%
+MemoryHigh=1G
