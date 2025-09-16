@@ -1,0 +1,16 @@
+# Template service unit example (instanceable via symlinks or systemctl)
+[Unit]
+Description=My App Instance %i
+After=network.target
+
+[Service]
+Type=simple
+# Use the instance name to parameterize behavior
+# Example: myapp@alpha.service uses /etc/myapp/alpha.conf
+Environment=APP_INSTANCE=%i
+EnvironmentFile=-/etc/myapp/%i.conf
+ExecStart=/usr/bin/myapp --config /etc/myapp/%i.conf
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
