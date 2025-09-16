@@ -1,0 +1,9 @@
+[Unit]
+Description=Spawned per connection on port-watcher.socket (%i)
+
+[Service]
+# This example reads from the accepted socket (fd 0) and prints a greeting
+# Replace with your real server program
+ExecStart=/bin/sh -c 'echo "Hello from systemd socket activation at $(date -Is)"; cat'
+StandardInput=socket
+StandardOutput=journal

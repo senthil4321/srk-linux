@@ -1,0 +1,10 @@
+[Unit]
+Description=Run hello-every10s.service every 10 seconds
+
+[Timer]
+OnUnitActiveSec=10s
+AccuracySec=1s
+Unit=hello-every10s.service
+
+[Install]
+WantedBy=timers.target

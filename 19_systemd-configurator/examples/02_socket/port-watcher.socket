@@ -1,0 +1,9 @@
+[Unit]
+Description=Port watcher socket on 0.0.0.0:9099
+
+[Socket]
+ListenStream=0.0.0.0:9099
+Accept=true
+
+[Install]
+WantedBy=sockets.target

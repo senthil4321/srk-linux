@@ -1,0 +1,6 @@
+[Unit]
+Description=Log hello world with timestamp (service for timer)
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'echo "$(date -Is) hello world"'
