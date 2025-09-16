@@ -1,0 +1,9 @@
+[Unit]
+Description=Start conditional.service when /etc/myapp/feature.flag is created
+
+[Path]
+PathExists=/etc/myapp/feature.flag
+Unit=conditional.service
+
+[Install]
+WantedBy=multi-user.target

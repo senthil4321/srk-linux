@@ -13,7 +13,7 @@ This directory contains example systemd service units, including a template serv
 - `myapp@.service` — Template. Uses `%i` in Description, Environment, EnvironmentFile, and ExecStart.
 - Optional per-instance config: `/etc/myapp/<instance>.conf` (e.g., `/etc/myapp/alpha.conf`).
 
-### Usage
+### Usage (conditional.service)
 
 1. Copy or symlink `myapp@.service` to `/etc/systemd/system/`.
 2. Create per-instance configuration files if needed: `/etc/myapp/<instance>.conf`.
@@ -35,3 +35,42 @@ This directory contains example systemd service units, including a template serv
 - `%i` is the raw instance string; `%I` is the escaped variant if your instance contains `/`.
 - Use `EnvironmentFile=-/etc/myapp/%i.conf` to make the config optional (`-` ignores missing file).
 - You can manage multiple instances independently (start/stop/restart each).
+
+## Conditional service example
+
+`conditional.service` demonstrates gating a service with a unit condition:
+
+- `ConditionPathExists=/etc/myapp/feature.flag` — if the file is missing, the unit is skipped without error.
+- This is a gate, not a trigger; it controls whether the unit runs when started/required.
+
+### Usage
+
+1. Copy `conditional.service` to `/etc/systemd/system/`.
+2. Create the flag file (optional):
+
+   ```bash
+   sudo mkdir -p /etc/myapp
+   echo enabled | sudo tee /etc/myapp/feature.flag
+   ```
+
+3. Start the service:
+
+   ```bash
+   sudo systemctl start conditional.service
+   ```
+
+4. Check logs/status:
+
+   ```bash
+   systemctl status conditional.service
+   journalctl -u conditional.service -n 50 -f
+   ```
+
+### Autostart on file appearance (optional)
+
+Use the path unit in `../09_path/conditional.path` to start the service when the flag file appears:
+
+```bash
+sudo cp ../09_path/conditional.path /etc/systemd/system/
+sudo systemctl enable --now conditional.path
+```

@@ -1,0 +1,12 @@
+[Unit]
+Description=Conditional example: run only if /etc/myapp/feature.flag exists
+# Condition acts as a gate — if false, the unit is skipped
+ConditionPathExists=/etc/myapp/feature.flag
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'echo "$(date -Is) conditional service: feature flag present"'
+
+[Install]
+WantedBy=multi-user.target
