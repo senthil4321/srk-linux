@@ -10,6 +10,7 @@ This demo shows how performance counters can leak cryptographic keys through cac
 
 - `aes_victim.c` - Victim process performing AES encryption
 - `perf_spy.c` - Attacker process using perf events to monitor cache activity
+- `key_extractor.c` - Automated key recovery using cache timing measurements
 - `Makefile` - Build configuration
 
 ## Requirements
@@ -28,20 +29,31 @@ make
 ## Usage
 
 ### Terminal 1 - Run victim (performs AES encryption)
+
 ```bash
 sudo ./aes_victim
 ```
 
 ### Terminal 2 - Run spy (monitors cache events)
+
 ```bash
 sudo ./perf_spy $(pgrep aes_victim)
 ```
+
+### Automated Key Recovery
+
+```bash
+sudo ./key_extractor
+```
+
+This program attempts to recover the first byte of the AES key by measuring cache misses for each possible key value (0x00-0xFF).
 
 ## What it demonstrates
 
 1. **Cache timing**: AES table lookups create measurable cache access patterns
 2. **Perf events**: Kernel perf subsystem exposes cache miss/hit counters
 3. **Side-channel leakage**: Cache behavior correlates with secret key bits
+4. **Key recovery**: Statistical analysis of timing data can recover cryptographic keys
 
 ## Security implications
 
