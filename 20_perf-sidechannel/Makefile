@@ -12,8 +12,8 @@ aes_victim: aes_victim.c
 perf_spy: perf_spy.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-key_extractor: key_extractor.c
-	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+key_extractor: key_extractor.c simple_aes.h
+	$(CC) $(CFLAGS) -o $@ key_extractor.c
 
 clean:
 	rm -f $(TARGETS) *.o
