@@ -52,17 +52,17 @@ This program attempts to recover the first byte of the AES key by measuring encr
 
 ```mermaid
 graph TD
-    A[START] --> B[Initialize test_key with known_key<br/>Set min_time = large value<br/>best_byte = -1]
+    A[START] --> B[Initialize test_key with known_key\nSet min_time = large value\nbest_byte = -1]
     B --> C[For byte = 0x00 to 0xFF]
     C --> D[Set test_key[0] = byte]
-    D --> E[Call measure_encryption_time<br/>Get avg_time]
+    D --> E[Call measure_encryption_time\nGet avg_time]
     E --> F{avg_time < min_time?}
-    F -->|Yes| G[Update min_time = avg_time<br/>best_byte = byte]
+    F -->|Yes| G[Update min_time = avg_time\nbest_byte = byte]
     F -->|No| H[Print progress every 16 bytes]
     G --> H
     H --> I{More bytes?}
     I -->|Yes| C
-    I -->|No| J[Print Results<br/>Recovered byte, Actual byte, Best time]
+    I -->|No| J[Print Results\nRecovered byte, Actual byte, Best time]
     J --> K{best_byte == known_key[0]?}
     K -->|Yes| L[SUCCESS]
     K -->|No| M[FAILED]
@@ -76,7 +76,7 @@ graph TD
     S --> T[AES_encrypt]
     T --> U{More iterations?}
     U -->|Yes| S
-    U -->|No| V[Stop timer<br/>Add to total_time]
+    U -->|No| V[Stop timer\nAdd to total_time]
     V --> W{More measurements?}
     W -->|Yes| Q
     W -->|No| X[Return avg time per encryption]
