@@ -37,7 +37,17 @@ pip3 install -r requirements.txt
 
 ## Quick Start
 
-### 1. Build and Run Complete Demo
+### 1. Complete Demo (Training + Prediction)
+```bash
+make full-demo
+```
+
+This runs the complete attack demonstration:
+1. **Training Phase**: Collect data with known key `0x2b` and train ML models
+2. **Prediction Phase**: Collect data with unknown key `0xa3` and predict it
+3. Generates two visualizations: `timing_analysis.png` and `unknown_key_prediction.png`
+
+### 2. Training Only (Known Key Recovery)
 ```bash
 make demo
 ```
@@ -48,20 +58,206 @@ This will:
 3. Run ML analysis to recover the key byte
 4. Generate visualization (timing_analysis.png)
 
-### 2. Step-by-Step Execution
+### 3. Prediction Only (Unknown Key Recovery)
+```bash
+make run-predict
+```
 
-#### Collect Timing Data
+This will:
+1. Collect timing data for an unknown key (`0xa3`)
+2. Use pre-trained models to predict the unknown key
+3. Generate prediction visualization
+
+### 4. Step-by-Step Execution
+
+#### Phase A: Training (Known Key)
 ```bash
 make collect_timing_data
 ./collect_timing_data timing_data.csv
-```
-
-#### Run ML Analysis
-```bash
 python3 ml_key_recovery.py timing_data.csv
 ```
 
+#### Phase B: Prediction (Unknown Key)
+```bash
+make predict_unknown_key
+./predict_unknown_key
+python3 predict_with_model.py unknown_key_data.csv
+```
+
 ## How It Works
+
+### Complete Workflow
+
+```mermaid
+graph TB
+    A[Start: Secret Key 0x2b7e...] --> B[Data Collection Phase]
+    B --> C[For each key byte guess 0x00-0xFF]
+    C --> D[Setup AES with test_key]
+    D --> E[Run 5000 encryption samples]
+    E --> F[Measure timing for each encryption]
+    F --> G[Record: key_guess, plaintext, timing, is_correct]
+    G --> H{All 256 values tested?}
+    H -->|No| C
+    H -->|Yes| I[Save to timing_data.csv]
+    
+    I --> J[Feature Extraction Phase]
+    J --> K[Group samples by key_guess]
+    K --> L[Calculate statistics per key]
+    L --> M[Features: mean, std, min, max, median, quartiles, range]
+    M --> N[256 feature vectors created]
+    
+    N --> O[ML Training Phase]
+    O --> P[Standardize features with StandardScaler]
+    P --> Q[Train Random Forest 100 trees]
+    P --> R[Train Gradient Boosting 100 estimators]
+    Q --> S[Models learn timing patterns]
+    R --> S
+    
+    S --> T[Prediction Phase]
+    T --> U[Get probability scores for each key]
+    U --> V[Rank keys by confidence]
+    V --> W[Top prediction: 0x2b with 61-100% confidence]
+    
+    W --> X[Visualization Phase]
+    X --> Y[Generate 4-panel analysis plot]
+    Y --> Z[End: Key Successfully Recovered!]
+    
+    style W fill:#90EE90
+    style A fill:#FFB6C1
+    style Z fill:#90EE90
+```
+
+### Detailed Phase Breakdown
+
+#### Phase 1: Data Collection (C Program)
+
+**Purpose**: Collect timing measurements for all possible key byte values.
+
+**Process**:
+1. **Secret Key Setup**: Target is `0x2b7e1516...` (first byte = 0x2b)
+2. **Key Guessing Loop**: Test every possible first key byte (0x00 to 0xFF)
+3. **For each guess**:
+   - Create test key: `[key_guess, 0x7e, 0x15, ...]` (only first byte varies)
+   - Expand AES round keys from test key
+   - Generate varied plaintexts
+   - Encrypt 5,000 times, measuring each timing
+   - Record CSV row: `key_guess, plaintext[0], timing_us, is_correct_flag`
+
+**Output**: `timing_data.csv` with 1,280,000 rows
+- 256 key values × 5,000 samples = 1,280,000 measurements
+
+**Timing Vulnerability**:
+```c
+// In vulnerable_aes.h
+static inline uint8_t vulnerable_sbox_lookup(uint8_t index) {
+    uint8_t value = sbox[index];
+    
+    // Artificial delay: 0-7 iterations based on S-box output
+    volatile int delay = 0;
+    for (int i = 0; i < (value & 0x07); i++) {
+        delay += i * i;  // CPU-bound work
+    }
+    
+    return value;
+}
+```
+
+**Why timing varies**:
+- First AES round: `state = plaintext XOR key`
+- S-box lookup: `output = sbox[state]`
+- Delay depends on `sbox[plaintext XOR key]`
+- Different key guesses → different S-box values → different delays
+
+#### Phase 2: Feature Extraction (Python)
+
+**Purpose**: Convert raw timing samples into statistical features.
+
+**Process**:
+1. **Group by key_guess**: Separate 5,000 samples for each key value
+2. **Calculate statistics** for each group:
+   - `mean_timing`: Average encryption time
+   - `std_timing`: Standard deviation (variability)
+   - `min_timing`: Fastest encryption
+   - `max_timing`: Slowest encryption
+   - `median_timing`: Middle value
+   - `q25_timing`, `q75_timing`: Quartiles
+   - `range_timing`: max - min
+
+**Output**: 256 feature vectors (one per key guess)
+
+**Example**:
+```
+key_guess  mean_timing  std_timing  min_timing  max_timing  is_correct
+0x00       2.45         0.82        1.0         38.0        0
+0x2b       2.33         0.91        1.0         44.0        1  ← Correct key
+0xff       2.87         1.23        2.0         89.0        0
+```
+
+#### Phase 3: ML Training
+
+**Purpose**: Learn patterns that distinguish the correct key from incorrect ones.
+
+**Process**:
+
+1. **Standardization**: Scale features to mean=0, std=1
+   ```python
+   scaler = StandardScaler()
+   X_scaled = scaler.fit_transform(X)
+   ```
+
+2. **Random Forest Training**:
+   - Creates 100 decision trees
+   - Each tree learns different timing patterns
+   - Trees vote to classify correct vs incorrect
+   - Handles non-linear relationships well
+
+3. **Gradient Boosting Training**:
+   - Builds trees sequentially
+   - Each new tree corrects previous errors
+   - Focuses on hard-to-classify samples
+   - Often achieves higher accuracy
+
+**Why ML helps**:
+- Raw timing alone: Correct key ranked 51st/256
+- ML with 8 features: Correct key ranked 1st/256
+- ML identifies **combination** of statistical patterns unique to correct key
+
+#### Phase 4: Prediction & Ranking
+
+**Purpose**: Identify which key byte is most likely correct.
+
+**Process**:
+1. **Probability Prediction**:
+   ```python
+   probs = model.predict_proba(X_scaled)[:, 1]
+   # Returns probability each key is correct (0.0 to 1.0)
+   ```
+
+2. **Ranking**:
+   - Sort keys by probability (highest first)
+   - Top prediction is the recovered key
+
+**Results**:
+```
+Random Forest:
+  1. Key 0x2b: 61.00% confidence *** CORRECT ***
+  2. Key 0xf3:  7.00% confidence
+  
+Gradient Boosting:
+  1. Key 0x2b: 100.00% confidence *** CORRECT ***
+  2. Key 0xf2:   0.00% confidence
+```
+
+#### Phase 5: Visualization
+
+**Purpose**: Show timing patterns visually.
+
+**4 Plots Generated**:
+
+1. **Bar Chart**: Average timing for all 256 keys (correct key in red)
+2. **Histogram**: Timing distribution comparison (correct vs incorrect)
+3. **Scatter Plot**: Mean vs Std timing (correct key highlighted)
+4. **Rank Plot**: Keys sorted by timing (shows correct key position)
 
 ### Phase 1: Data Collection
 
