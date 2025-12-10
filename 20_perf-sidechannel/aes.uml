@@ -1,0 +1,37 @@
+@startuml
+' Title
+title AES Key Extractor - Conceptual Class Diagram
+
+' AES encryption context
+class SimpleAES_CTX {
+    - round_keys: unsigned char[]
+    + SimpleAES_CTX()
+}
+
+' AES functions (procedural, but treated as class methods)
+class SimpleAES {
+    + key_expansion(ctx: SimpleAES_CTX, key: unsigned char[])
+    + encrypt(ctx: SimpleAES_CTX, plaintext: unsigned char[], ciphertext: unsigned char[])
+}
+
+' Measurement and attack
+class TimingAttack {
+    - known_key: unsigned char[16]
+    - NUM_ITERATIONS: int
+    - NUM_WARMUP: int
+    + flush_cache()
+    + measure_encryption_time(key: unsigned char[]): double
+    + recover_key_byte(): int
+}
+
+' Main program
+class AESKeyExtractor {
+    + main()
+}
+
+' Relationships
+AESKeyExtractor --> TimingAttack : uses
+TimingAttack --> SimpleAES_CTX : creates context
+TimingAttack --> SimpleAES : calls encrypt / key_expansion
+
+@enduml

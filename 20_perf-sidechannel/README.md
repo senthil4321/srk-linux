@@ -283,11 +283,54 @@ Real-world AES implementations prevent this by:
 - **Masking**: Randomizing intermediate values
 - **Hardware AES**: Using AES-NI instructions (constant-time by design)
 
+## Amplifying Timing Differences
+
+The original implementation had timing differences too small (~0.01%) to reliably detect due to system noise. To make the attack more demonstrable, we introduced **artificial delays** that amplify the S-box value differences:
+
+```c
+// Amplified version with artificial delay
+static void sub_bytes(uint8_t *state) {
+    for (i = 0; i < AES_BLOCK_SIZE; i++) {
+        uint8_t val = sbox[state[i]];
+        
+        // Add CPU-bound delay proportional to S-box value
+        volatile int dummy = 0;
+        for (int j = 0; j < (val & 0x0F); j++) {
+            dummy += j;  // 0-15 iterations based on lower 4 bits
+        }
+        
+        state[i] = val;
+    }
+}
+```
+
+### Why This Helps
+
+1. **Magnifies timing signal**: Natural cache timing differences (~0.01%) become 1-5%
+2. **S-box value correlation**: Delay depends on the S-box output value
+3. **Key-dependent pattern**: Different keys produce different S-box outputs
+4. **Statistical detectability**: Larger differences overcome measurement noise
+
+### Trade-offs
+
+- **Real attacks are subtler**: Actual cache timing attacks don't need artificial delays
+- **Better for demonstration**: Makes the principle visible on noisy systems
+- **Same vulnerability**: The core issue (key-dependent timing) remains the same
+- **Educational value**: Shows how timing side-channels can be exploited
+
+In production systems, even tiny timing differences (nanoseconds) can be exploited with:
+
+- Millions of measurements
+- Better statistical analysis (correlation, regression)
+- Controlled test environments
+- Specialized hardware for precise timing
+
 ## Security implications
 
 - Even isolated processes can leak secrets via shared CPU resources
 - Hardware performance counters provide high-resolution timing
 - Demonstrates why constant-time crypto implementations are critical
+
 ## Diagram
 
 ```mermaid
@@ -326,6 +369,46 @@ sequenceDiagram
     Analyzer-->>Attacker: Infer likely key byte(s) (fastest timings → candidate)
     note right of Analyzer: Repeat and refine to increase confidence
 ```
+
+## aes flow diagram
+
+```marmaid
+sequenceDiagram
+    autonumber
+    participant App as Application
+    participant AES as "AES Encryptor"
+    participant Key as "Key Schedule"
+    participant State as "State Matrix (4x4)"
+    participant SBOX as "S-Box / T-Tables"
+    participant Timer as "Execution Time"
+
+    App->>AES: encrypt(plaintext, secret_key)
+    AES->>Timer: start()
+
+    AES->>Key: KeyExpansion(secret_key)
+    Key-->>AES: RoundKeys[0..Nr]
+
+    AES->>State: Load plaintext into state
+    AES->>AES: AddRoundKey (Round 0)
+
+    loop Round 1 to Nr-1
+        AES->>SBOX: SubBytes(state ⊕ round_key)
+        SBOX-->>AES: Substituted bytes
+        AES->>AES: ShiftRows()
+        AES->>AES: MixColumns()
+        AES->>AES: AddRoundKey(round_key)
+    end
+
+    AES->>SBOX: SubBytes(state ⊕ final_round_key)
+    AES->>AES: ShiftRows()
+    AES->>AES: AddRoundKey(final_round_key)
+
+    AES->>State: Produce ciphertext
+    AES->>Timer: stop()
+    AES-->>App: ciphertext
+
+```
+
 ## References
 
 - [Flush+Reload: a High Resolution, Low Noise, L3 Cache Side-Channel Attack](https://eprint.iacr.org/2013/448.pdf)
