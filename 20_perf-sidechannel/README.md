@@ -372,7 +372,7 @@ sequenceDiagram
 
 ## aes flow diagram
 
-```marmaid
+```mermaid
 sequenceDiagram
     autonumber
     participant App as Application
