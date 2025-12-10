@@ -288,7 +288,44 @@ Real-world AES implementations prevent this by:
 - Even isolated processes can leak secrets via shared CPU resources
 - Hardware performance counters provide high-resolution timing
 - Demonstrates why constant-time crypto implementations are critical
+## Diagram
 
+```mermaid
+---
+config:
+  look: classic
+  theme: redux-color
+---
+sequenceDiagram
+    autonumber
+
+    participant Attacker
+    participant Timer as "Timer / Measurement"
+    participant Analyzer as "Attacker Analyzer"    
+    participant Victim as "Victim (AES)\nRunning vulnerable AES"
+    participant CPU
+    participant Cache as CPU Cache (L1/L2/L3)
+    participant RAM
+
+    Attacker->>Victim: Send chosen plaintexts (depends on key guess)
+    Victim->>CPU: Execute AES encrypt(plaintext, secret_key)
+    CPU->>Cache: Access S-box / T-tables (address = f(plaintext, key))
+    alt cache hit
+        Cache-->>CPU: Return data (fast)
+    else cache miss
+        Cache->>RAM: Fetch cache line (slow)
+        RAM-->>Cache: Return line
+    end
+    CPU-->>Victim: Complete encryption (ciphertext)
+    Victim-->>Timer: End measurement (time observed)
+    Timer-->>Attacker: Report elapsed time
+    loop many iterations & key guesses
+        Attacker->>Analyzer: Collect times for each key guess
+    end
+    Analyzer->>Analyzer: Average / statistically analyze timings
+    Analyzer-->>Attacker: Infer likely key byte(s) (fastest timings → candidate)
+    note right of Analyzer: Repeat and refine to increase confidence
+```
 ## References
 
 - [Flush+Reload: a High Resolution, Low Noise, L3 Cache Side-Channel Attack](https://eprint.iacr.org/2013/448.pdf)
