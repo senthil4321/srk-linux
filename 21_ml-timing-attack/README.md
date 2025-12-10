@@ -252,7 +252,6 @@ flowchart TD
     C --> E
     D --> F[Predictions / Insights]
     E --> F
-
 ```
 
 ## License

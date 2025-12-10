@@ -58,14 +58,24 @@ def extract_features(df):
     
     return features_df
 
-def train_model(X_train, X_test, y_train, y_test):
-    """Train and evaluate ML models"""
+def train_model(features_df):
+    """Train and evaluate ML models on timing features"""
     print("\nTraining models...")
+    
+    # Prepare features
+    X = features_df.drop(['key_byte_guess', 'is_correct'], axis=1)
+    y = features_df['is_correct']
+    
+    print(f"Total samples: {len(X)}")
+    print(f"Positive class (correct key): {sum(y == 1)}")
+    print(f"Negative class (incorrect keys): {sum(y == 0)}")
+    
+    # Since we only have 1 positive sample, we'll use the entire dataset
+    # and focus on ranking/anomaly detection rather than traditional classification
     
     # Standardize features
     scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    X_scaled = scaler.fit_transform(X)
     
     models = {
         'Random Forest': RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42),
@@ -75,13 +85,21 @@ def train_model(X_train, X_test, y_train, y_test):
     results = {}
     
     for name, model in models.items():
-        print(f"\nTraining {name}...")
-        model.fit(X_train_scaled, y_train)
+        print(f"\nTraining {name} on full dataset...")
+        model.fit(X_scaled, y)
         
-        y_pred = model.predict(X_test_scaled)
-        accuracy = accuracy_score(y_test, y_pred)
+        # Get predictions on same data (not ideal but necessary with single positive sample)
+        y_pred = model.predict(X_scaled)
+        accuracy = accuracy_score(y, y_pred)
         
-        print(f"{name} Accuracy: {accuracy:.4f}")
+        print(f"{name} Training Accuracy: {accuracy:.4f}")
+        
+        # Check if correct key is identified
+        correct_idx = features_df[features_df['is_correct'] == 1].index[0]
+        if y_pred[correct_idx] == 1:
+            print(f"✓ Correct key identified!")
+        else:
+            print(f"✗ Correct key not identified in predictions")
         
         results[name] = {
             'model': model,
@@ -129,17 +147,21 @@ def predict_key_byte(features_df, results):
     
     correct_key = features_df[features_df['is_correct'] == 1]['key_byte_guess'].iloc[0]
     
+    # Prepare features (before adding probability columns)
+    X = features_df.drop(['key_byte_guess', 'is_correct'], axis=1).copy()
+    
     for name, result in results.items():
         model = result['model']
         scaler = result['scaler']
         
-        # Prepare features for prediction
-        X = features_df.drop(['key_byte_guess', 'is_correct'], axis=1)
+        # Transform features
         X_scaled = scaler.transform(X)
         
         # Get prediction probabilities
         if hasattr(model, 'predict_proba'):
             probs = model.predict_proba(X_scaled)[:, 1]  # Probability of being correct
+            
+            # Add probability column to original dataframe
             features_df[f'{name}_prob'] = probs
             
             # Get top 5 predictions
@@ -242,17 +264,8 @@ def main():
     # Extract features
     features_df = extract_features(df)
     
-    # Prepare ML training data
-    X = features_df.drop(['key_byte_guess', 'is_correct'], axis=1)
-    y = features_df['is_correct']
-    
-    # Split data
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42, stratify=y
-    )
-    
-    # Train models
-    results = train_model(X_train, X_test, y_train, y_test)
+    # Train models (no train/test split due to single positive sample)
+    results = train_model(features_df)
     
     # Predict key byte
     features_df = predict_key_byte(features_df, results)
