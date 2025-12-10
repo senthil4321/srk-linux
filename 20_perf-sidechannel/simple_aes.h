@@ -84,7 +84,17 @@ void simple_aes_key_expansion(SimpleAES_CTX *ctx, const uint8_t *key) {
 static void sub_bytes(uint8_t *state) {
     int i;
     for (i = 0; i < AES_BLOCK_SIZE; i++) {
-        state[i] = sbox[state[i]];  // Cache timing leak here!
+        // Introduce artificial delay based on S-box value to amplify timing
+        // This simulates cache miss penalty in a more exaggerated way
+        uint8_t val = sbox[state[i]];  // Cache timing leak here!
+        
+        // Add CPU-bound delay proportional to value to amplify differences
+        volatile int dummy = 0;
+        for (int j = 0; j < (val & 0x0F); j++) {
+            dummy += j;
+        }
+        
+        state[i] = val;
     }
 }
 
