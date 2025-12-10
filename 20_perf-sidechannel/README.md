@@ -11,6 +11,8 @@ This demo shows how performance counters can leak cryptographic keys through cac
 - `aes_victim.c` - Victim process performing AES encryption
 - `perf_spy.c` - Attacker process using perf events to monitor cache activity
 - `key_extractor.c` - Automated key recovery using cache timing measurements
+- `perf_capabilities_demo.c` - Comprehensive demonstration of perf_event capabilities
+- `perf_sampling_demo.c` - Sampling-based profiling demonstration
 - `Makefile` - Build configuration
 
 ## Requirements
@@ -27,6 +29,33 @@ make
 ```
 
 ## Usage
+
+### Explore perf_event Capabilities
+
+**Run comprehensive capabilities demo:**
+```bash
+sudo ./perf_capabilities_demo
+```
+
+Demonstrates:
+- Hardware counters (CPU cycles, instructions, cache references/misses)
+- Cache hierarchy monitoring (L1D, L1I, LLC)
+- Branch prediction analysis (predictable vs random branches)
+- Software events (page faults, context switches, CPU migrations)
+- TLB monitoring (data/instruction TLB misses)
+- Performance metrics (IPC, cache miss rates, branch miss rates)
+
+**Run sampling demo:**
+```bash
+sudo ./perf_sampling_demo
+```
+
+Shows:
+- Instruction pointer sampling
+- Cache miss address sampling
+- Frequency-based profiling (time-based sampling)
+
+### Side-Channel Attack Demo
 
 ### Terminal 1 - Run victim (performs AES encryption)
 
